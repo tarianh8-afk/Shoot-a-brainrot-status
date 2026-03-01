@@ -91,7 +91,7 @@ body.light{
              pulseGlow 3s infinite ease-in-out;
 }
 
-/* Water ripple rings */
+/* Ripple Rings */
 .ring{
   position:absolute;
   width:100%;
@@ -126,6 +126,7 @@ h1{
 .button-group{
   display:flex;
   gap:15px;
+  flex-wrap:wrap;
 }
 
 .btn{
@@ -197,10 +198,9 @@ h1{
   box-shadow:0 0 20px rgba(76,201,255,.7);
   width:0;
   transition:width 1.5s ease;
-  overflow:hidden; /* IMPORTANT */
+  overflow:hidden;
 }
 
-/* Shine INSIDE the blue fill only */
 .progress-bar::after{
   content:"";
   position:absolute;
@@ -208,12 +208,7 @@ h1{
   left:-100%;
   height:100%;
   width:40%;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.6) 50%,
-    transparent 100%
-  );
+  background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.6) 50%,transparent 100%);
   transform:skewX(-20deg);
   animation: slideShine 3s ease-in-out infinite;
 }
@@ -264,6 +259,7 @@ h1{
   <div class="button-group">
     <button class="btn" id="toggleBtn">Toggle Mode</button>
     <a href="mailto:Tarianh8@outlook.com" class="btn">Email</a>
+    <a href="https://discord.gg/gyewQRPzqW" target="_blank" class="btn">Discord</a>
   </div>
 </div>
 
@@ -285,7 +281,7 @@ h1{
 </div>
 
 <div class="footer">
-Made by Tazz & co owner Jme
+Made by Tazz & Jme
 </div>
 
 </div>
@@ -295,7 +291,7 @@ const services = [
   {name:"Discord Bot", percent:100, status:"operational"},
   {name:"Website", percent:0, status:"maintenance"},
   {name:"Progress", percent:10, status:"development"},
-  {name:"support", percent:5, status:"down"}
+  {name:"API", percent:5, status:"down"}
 ];
 
 function render(){
@@ -343,47 +339,7 @@ render();
 document.getElementById("toggleBtn").onclick=()=>{
   document.body.classList.toggle("light");
 };
-
-/* PARTICLES */
-const canvas=document.getElementById("particles");
-const ctx=canvas.getContext("2d");
-
-function resize(){
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-}
-resize();
-window.addEventListener("resize",resize);
-
-let particles=[];
-for(let i=0;i<70;i++){
-  particles.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*2+1,
-    dx:(Math.random()-.5)*0.4,
-    dy:(Math.random()-.5)*0.4
-  });
-}
-
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="rgba(76,201,255,.7)";
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-    p.x+=p.dx;
-    p.y+=p.dy;
-    if(p.x<0||p.x>canvas.width)p.dx*=-1;
-    if(p.y<0||p.y>canvas.height)p.dy*=-1;
-  });
-  requestAnimationFrame(animate);
-}
-animate();
 </script>
 
 </body>
 </html>
-
-
