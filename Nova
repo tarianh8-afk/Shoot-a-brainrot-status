@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Syndicate Status</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --glass:rgba(30,20,60,0.55);
+  --border:rgba(255,255,255,0.08);
+  --text:#ffffff;
+
+  --green:#22c55e;
+  --active:#22c55e;
+  --maintenance:#facc15;
+  --offline:#ef4444;
+  --beta:#4cc9ff;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:radial-gradient(circle at top,#140a2e 0%,#05050c 60%);
+  color:var(--text);
+  padding:30px 18px;
+}
+
+/* PARTICLES */
+#particles{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+}
+
+/* CONTAINER */
+.container{
+  max-width:850px;
+  margin:auto;
+}
+
+/* HEADER */
+.header{
+  background:var(--glass);
+  backdrop-filter:blur(25px);
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:28px;
+  margin-bottom:40px;
+}
+
+/* STATUS DOT */
+.status-wrapper{
+  position:relative;
+  width:22px;
+  height:22px;
+}
+
+@keyframes blob{
+  0%,100%{border-radius:50%}
+  25%{border-radius:60% 40% 55% 45%/50% 60% 40% 50%}
+  50%{border-radius:45% 55% 40% 60%/60% 40% 60% 40%}
+  75%{border-radius:55% 45% 60% 40%/45% 55% 45% 55%}
+}
+
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 15px var(--green)}
+  50%{box-shadow:0 0 45px var(--green)}
+}
+
+.status-dot{
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle at 30% 30%, #bbf7d0, var(--green));
+  position:absolute;
+  animation:blob 6s infinite ease-in-out,
+            pulse 3s infinite ease-in-out;
+}
+
+.ring{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  border:2px solid var(--green);
+  opacity:0;
+  animation:ripple 3s infinite;
+}
+
+.ring:nth-child(3){animation-delay:1s}
+.ring:nth-child(4){animation-delay:2s}
+
+@keyframes ripple{
+  0%{transform:scale(1);opacity:.6}
+  100%{transform:scale(2.4);opacity:0}
+}
+
+/* HEADER TOP */
+.header-top{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+h1{
+  margin:0;
+  font-size:26px;
+  font-weight:800;
+}
+
+/* TIMER */
+@keyframes shine{
+  0%{background-position:-300% center}
+  40%{background-position:300% center}
+  100%{background-position:300% center}
+}
+
+.alive-timer{
+  margin:15px auto;
+  text-align:center;
+  font-size:18px;
+  font-weight:800;
+  width:fit-content;
+
+  background:linear-gradient(
+    120deg,
+    #4cc9ff 0%,
+    #8b5cf6 40%,
+    rgba(255,255,255,.95) 50%,
+    #8b5cf6 60%,
+    #4cc9ff 100%
+  );
+
+  background-size:500% auto;
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  animation:shine 14s ease-in-out infinite;
+}
+
+/* CARD */
+.card{
+  background:var(--glass);
+  backdrop-filter:blur(25px);
+  border:1px solid var(--border);
+  border-radius:30px;
+  padding:30px;
+  margin-bottom:35px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.service-title{
+  font-size:22px;
+  font-weight:700;
+}
+
+/* BADGES */
+.badge{
+  padding:8px 20px;
+  border-radius:50px;
+  font-size:13px;
+  font-weight:700;
+  border:2px solid;
+}
+
+.badge.active{
+  color:var(--active);
+  border-color:var(--active);
+  box-shadow:0 0 15px var(--active);
+}
+
+.badge.maintenance{
+  color:var(--maintenance);
+  border-color:var(--maintenance);
+  box-shadow:0 0 15px var(--maintenance);
+}
+
+.badge.offline{
+  color:var(--offline);
+  border-color:var(--offline);
+  box-shadow:0 0 15px var(--offline);
+}
+
+.badge.beta{
+  color:var(--beta);
+  border-color:var(--beta);
+  box-shadow:0 0 15px var(--beta);
+}
+
+/* PROGRESS BAR */
+.progress-wrapper{
+  background:rgba(255,255,255,0.08);
+  border-radius:30px;
+  height:22px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  position:relative;
+  height:100%;
+  border-radius:30px;
+  background:linear-gradient(90deg,#4cc9ff,#8b5cf6,#ec4899);
+  box-shadow:0 0 20px #8b5cf6;
+  width:0;
+  transition:width 1.5s ease;
+  overflow:hidden;
+}
+
+.progress-bar::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  height:100%;
+  width:35%;
+  background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.6) 50%,transparent 100%);
+  transform:skewX(-20deg);
+  animation:slideShine 4s ease-in-out infinite;
+}
+
+@keyframes slideShine{
+  0%{left:-120%}
+  100%{left:120%}
+}
+
+.percent{
+  margin-top:10px;
+  font-weight:600;
+  opacity:.8;
+}
+
+.footer{
+  text-align:center;
+  margin-top:50px;
+  opacity:.5;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="container">
+
+<div class="header">
+  <div class="header-top">
+    <div class="status-wrapper">
+      <div class="status-dot"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+    <h1>Nova Syndicate</h1>
+  </div>
+
+  <div class="alive-timer" id="aliveTimer">
+    Established: 0d 0h 0m 0s
+  </div>
+</div>
+
+<div id="services"></div>
+
+<div class="footer">
+Nova Syndicate © 2026
+</div>
+
+</div>
+
+<script>
+
+/* EDIT SERVICES HERE */
+const services=[
+  {name:"Core Network", percent:100, status:"offline", label:"offline"},
+  {name:"Important Stuff", percent:75, status:"maintenance", label:"MAINTENANCE"},
+  {name:"Expansion", percent:40, status:"beta", label:"BETA"},
+  {name:"Team", percent:10, status:"offline", label:"OFFLINE"}
+];
+
+function render(){
+  const container=document.getElementById("services");
+
+  services.forEach(service=>{
+    const card=document.createElement("div");
+    card.className="card";
+
+    card.innerHTML=`
+      <div class="row">
+        <div class="service-title">${service.name}</div>
+        <div class="badge ${service.status}">
+          ${service.label}
+        </div>
+      </div>
+
+      <div class="progress-wrapper">
+        <div class="progress-bar"></div>
+      </div>
+
+      <div class="percent">0%</div>
+    `;
+
+    container.appendChild(card);
+
+    const bar=card.querySelector(".progress-bar");
+    const percentText=card.querySelector(".percent");
+
+    setTimeout(()=>{bar.style.width=service.percent+"%";},200);
+
+    let count=0;
+    let interval=setInterval(()=>{
+      if(count>=service.percent){clearInterval(interval);}
+      else{count++;percentText.textContent=count+"%";}
+    },15);
+  });
+}
+
+render();
+
+/* TIMER */
+const startDate=new Date("2026-01-01T00:00:00Z");
+
+function updateTimer(){
+  const now=new Date();
+  const diff=now-startDate;
+  const d=Math.floor(diff/(1000*60*60*24));
+  const h=Math.floor((diff/(1000*60*60))%24);
+  const m=Math.floor((diff/(1000*60))%60);
+  const s=Math.floor((diff/1000)%60);
+
+  document.getElementById("aliveTimer").textContent=
+    `Established: ${d}d ${h}h ${m}m ${s}s`;
+}
+
+setInterval(updateTimer,1000);
+updateTimer();
+
+/* PARTICLES */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+}
+resize();
+window.addEventListener("resize",resize);
+
+let particles=[];
+for(let i=0;i<80;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*2+1,
+    dx:(Math.random()-.5)*0.3,
+    dy:(Math.random()-.5)*0.3
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="rgba(139,92,246,.7)";
+  particles.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+    p.x+=p.dx;
+    p.y+=p.dy;
+    if(p.x<0||p.x>canvas.width)p.dx*=-1;
+    if(p.y<0||p.y>canvas.height)p.dy*=-1;
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+</script>
+
+</body>
+</html>
