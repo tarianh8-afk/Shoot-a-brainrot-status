@@ -9,12 +9,12 @@
 
 <style>
 :root{
-  --bg:#05050c;
   --glass:rgba(30,20,60,0.55);
   --border:rgba(255,255,255,0.08);
   --text:#ffffff;
 
-  --active:#8b5cf6;
+  --green:#22c55e;
+  --active:#22c55e;
   --maintenance:#facc15;
   --offline:#ef4444;
   --beta:#4cc9ff;
@@ -53,6 +53,53 @@ body{
   margin-bottom:40px;
 }
 
+/* STATUS DOT */
+.status-wrapper{
+  position:relative;
+  width:22px;
+  height:22px;
+}
+
+@keyframes blob{
+  0%,100%{border-radius:50%}
+  25%{border-radius:60% 40% 55% 45%/50% 60% 40% 50%}
+  50%{border-radius:45% 55% 40% 60%/60% 40% 60% 40%}
+  75%{border-radius:55% 45% 60% 40%/45% 55% 45% 55%}
+}
+
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 15px var(--green)}
+  50%{box-shadow:0 0 45px var(--green)}
+}
+
+.status-dot{
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle at 30% 30%, #bbf7d0, var(--green));
+  position:absolute;
+  animation:blob 6s infinite ease-in-out,
+            pulse 3s infinite ease-in-out;
+}
+
+.ring{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  border:2px solid var(--green);
+  opacity:0;
+  animation:ripple 3s infinite;
+}
+
+.ring:nth-child(3){animation-delay:1s}
+.ring:nth-child(4){animation-delay:2s}
+
+@keyframes ripple{
+  0%{transform:scale(1);opacity:.6}
+  100%{transform:scale(2.4);opacity:0}
+}
+
+/* HEADER TOP */
 .header-top{
   display:flex;
   align-items:center;
@@ -66,6 +113,12 @@ h1{
 }
 
 /* TIMER */
+@keyframes shine{
+  0%{background-position:-300% center}
+  40%{background-position:300% center}
+  100%{background-position:300% center}
+}
+
 .alive-timer{
   margin:15px auto;
   text-align:center;
@@ -75,11 +128,11 @@ h1{
 
   background:linear-gradient(
     120deg,
-    #8b5cf6 0%,
-    #4cc9ff 40%,
+    #4cc9ff 0%,
+    #8b5cf6 40%,
     rgba(255,255,255,.95) 50%,
-    #4cc9ff 60%,
-    #8b5cf6 100%
+    #8b5cf6 60%,
+    #4cc9ff 100%
   );
 
   background-size:500% auto;
@@ -88,12 +141,6 @@ h1{
   color:transparent;
   -webkit-text-fill-color:transparent;
   animation:shine 14s ease-in-out infinite;
-}
-
-@keyframes shine{
-  0%{background-position:-300% center}
-  40%{background-position:300% center}
-  100%{background-position:300% center}
 }
 
 /* CARD */
@@ -163,7 +210,7 @@ h1{
   position:relative;
   height:100%;
   border-radius:30px;
-  background:linear-gradient(90deg,#8b5cf6,#4cc9ff,#ec4899);
+  background:linear-gradient(90deg,#4cc9ff,#8b5cf6,#ec4899);
   box-shadow:0 0 20px #8b5cf6;
   width:0;
   transition:width 1.5s ease;
@@ -209,6 +256,11 @@ h1{
 
 <div class="header">
   <div class="header-top">
+    <div class="status-wrapper">
+      <div class="status-dot"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
     <h1>Nova Syndicate</h1>
   </div>
 
@@ -227,16 +279,13 @@ Nova Syndicate © 2026
 
 <script>
 
-/* ===== EDIT SERVICES HERE ===== */
-
+/* EDIT SERVICES HERE */
 const services=[
-  {name:"Core Network", percent:50, status:"offline", label:"offline"},
-  {name:"Operations", percent:0, status:"offline", label:"offline"},
-  {name:"Team", percent:0, status:"offline", label:"offline"},
-  {name:"Our Progression", percent:0, status:"offline", label:"offline"}
+  {name:"Core Network", percent:100, status:"active", label:"ACTIVE"},
+  {name:"Operations", percent:75, status:"maintenance", label:"MAINTENANCE"},
+  {name:"Expansion", percent:40, status:"beta", label:"BETA"},
+  {name:"Shadow Ops", percent:10, status:"offline", label:"OFFLINE"}
 ];
-
-/* =============================== */
 
 function render(){
   const container=document.getElementById("services");
@@ -278,7 +327,7 @@ function render(){
 render();
 
 /* TIMER */
-const startDate=new Date("2026-01-03T00:00:00Z");
+const startDate=new Date("2026-01-01T00:00:00Z");
 
 function updateTimer(){
   const now=new Date();
