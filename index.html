@@ -3,295 +3,207 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shoot a Brain Rot Status</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Status System</title>
 
 <style>
-:root{
-  --bg1:#0b1026;
-  --bg2:#05060a;
-  --glass:rgba(25,30,60,0.45);
-  --border:rgba(255,255,255,0.08);
-  --text:#ffffff;
-  --green:#00ff99;
-  --purple:#b46cff;
-  --red:#ff3b5c;
-  --blue:#4cc9ff;
-}
 
-/* LIGHT MODE */
-.light{
-  --bg1:#eef2ff;
-  --bg2:#dbeafe;
-  --glass:rgba(255,255,255,0.6);
-  --border:rgba(0,0,0,0.08);
-  --text:#111827;
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Segoe UI, sans-serif;
 }
-
-*{box-sizing:border-box;margin:0;padding:0}
 
 body{
-  font-family:'Inter',sans-serif;
-  background:linear-gradient(140deg,var(--bg1),var(--bg2));
-  background-size:200% 200%;
-  animation:bgShift 15s ease infinite;
-  color:var(--text);
-  padding:40px 20px;
+  background:#05070d;
+  color:white;
   overflow-x:hidden;
+  transition:.4s ease;
 }
 
-@keyframes bgShift{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+body.light{
+  background:#f4f7ff;
+  color:#111;
 }
 
-.container{max-width:900px;margin:auto}
-
-/* FLOAT HEADER */
-@keyframes floatHeader{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
+/* PARTICLES */
+#particles{
+  position:fixed;
+  inset:0;
+  z-index:-1;
 }
 
-.header{
-  background:var(--glass);
-  backdrop-filter:blur(30px);
-  border:1px solid var(--border);
-  border-radius:30px;
-  padding:30px;
-  margin-bottom:50px;
-  animation:floatHeader 6s ease-in-out infinite;
-  box-shadow:0 15px 60px rgba(0,0,0,.6);
-}
-
-/* STATUS DOT WATER DROP */
-.status-wrapper{
-  position:relative;
-  width:26px;height:26px;
-}
-
-@keyframes blob{
-  0%,100%{border-radius:50%}
-  50%{border-radius:60% 40% 55% 45%}
-}
-
-.status-dot{
-  width:100%;height:100%;
-  background:radial-gradient(circle at 30% 30%,#66ffcc,var(--green));
-  animation:blob 6s infinite ease-in-out;
-  box-shadow:0 0 25px var(--green),0 0 60px var(--green);
-  position:relative;
-}
-
-.status-dot::before{
-  content:"";
-  position:absolute;
-  width:10px;height:10px;
-  top:5px;left:6px;
-  background:white;
-  border-radius:50%;
-  filter:blur(1px);
-  opacity:.9;
+/* CONTAINER */
+.container{
+  max-width:800px;
+  margin:80px auto;
+  padding:20px;
+  perspective:1200px;
 }
 
 /* HEADER */
-.header-top{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  margin-bottom:25px;
+.header{
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(20px);
+  padding:30px;
+  border-radius:20px;
+  margin-bottom:30px;
+  text-align:center;
+  animation:floatHeader 4s ease-in-out infinite;
+  box-shadow:0 0 40px rgba(0,170,255,.3);
 }
 
-h1{font-size:26px;font-weight:800}
+@keyframes floatHeader{
+  0%,100%{transform:translateY(0px);}
+  50%{transform:translateY(-8px);}
+}
+
+.clock{
+  margin-top:10px;
+  font-size:14px;
+  opacity:.7;
+}
 
 /* BUTTONS */
-.button-group{display:flex;gap:15px}
-
 .btn{
-  flex:1;
-  text-align:center;
-  padding:14px;
-  border-radius:50px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(20px);
-  color:var(--text);
-  font-weight:600;
+  padding:10px 18px;
+  border-radius:10px;
+  border:none;
   cursor:pointer;
-  transition:.3s;
+  background:rgba(255,255,255,.08);
+  color:white;
+  backdrop-filter:blur(10px);
+  transition:.3s ease;
 }
 
 .btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 0 25px rgba(255,255,255,.5);
+  box-shadow:0 0 20px rgba(0,170,255,.6);
 }
 
-/* CARDS */
+/* CARD */
 .card{
-  background:var(--glass);
-  backdrop-filter:blur(30px);
-  border:1px solid var(--border);
-  border-radius:30px;
-  padding:35px;
-  margin-bottom:40px;
-  transition:.4s;
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(15px);
+  padding:20px;
+  border-radius:20px;
+  margin-bottom:20px;
+  transition:.2s ease;
   transform-style:preserve-3d;
-}
-
-.card:hover{
-  transform:rotateX(3deg) rotateY(3deg);
+  box-shadow:0 10px 40px rgba(0,0,0,.5);
 }
 
 .row{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:20px;
+  margin-bottom:15px;
 }
 
-.service-title{font-size:22px;font-weight:700}
+/* STATUS DOT */
+.status-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#00ff88;
+  box-shadow:0 0 15px #00ff88;
+  display:inline-block;
+  margin-right:8px;
+}
 
-/* BADGES */
+/* BADGE */
 .badge{
-  padding:8px 22px;
-  border-radius:50px;
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:1px;
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:8px;
+  background:rgba(255,255,255,.08);
 }
 
-.operational{
-  color:var(--green);
-  border:2px solid var(--green);
-  box-shadow:0 0 20px var(--green);
-}
-
-.maintenance{
-  color:var(--purple);
-  border:2px solid var(--purple);
-  box-shadow:
-    0 0 20px var(--purple),
-    0 0 50px rgba(180,108,255,.7),
-    inset 0 0 20px rgba(180,108,255,.4);
-}
-
-.down{
-  color:var(--red);
-  border:2px solid var(--red);
-  box-shadow:0 0 20px var(--red);
-}
-
-.development{
-  color:var(--blue);
-  border:2px solid var(--blue);
-  box-shadow:0 0 20px var(--blue);
-}
-
-/* PROGRESS BAR */
+/* PROGRESS */
 .progress-wrapper{
-  background:rgba(255,255,255,0.07);
-  border-radius:30px;
-  height:24px;
+  width:100%;
+  height:12px;
+  background:rgba(255,255,255,.08);
+  border-radius:20px;
   overflow:hidden;
+  position:relative;
 }
 
 .progress-bar{
   height:100%;
-  border-radius:30px;
-  background:linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
-  box-shadow:0 0 30px rgba(76,201,255,.9);
+  width:0%;
+  border-radius:20px;
+  background:linear-gradient(90deg,#00c6ff,#0044ff);
+  box-shadow:
+    0 0 20px rgba(0,140,255,.9),
+    0 0 40px rgba(0,80,255,.6);
   position:relative;
-  width:0;
-  transition:width 1.5s ease;
+  transition:width 1.5s cubic-bezier(.2,.8,.2,1);
 }
 
+/* SHINE EFFECT (STAYS INSIDE BAR) */
 .progress-bar::after{
   content:"";
   position:absolute;
-  top:0;left:-120%;
-  height:100%;width:60%;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.6),transparent);
-  transform:skewX(-20deg);
-  animation:shine 4s infinite;
+  top:0;
+  left:-40%;
+  width:40%;
+  height:100%;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.6),
+    transparent
+  );
+  animation:shine 3s infinite;
 }
 
 @keyframes shine{
-  100%{left:150%}
+  0%{left:-40%;}
+  100%{left:120%;}
 }
 
-.percent{margin-top:12px;font-weight:600}
-
-/* TEAM */
-.team-grid{
-  display:grid;
-  gap:15px;
+.percent{
+  text-align:right;
+  margin-top:6px;
+  font-size:13px;
+  opacity:.8;
 }
 
-.team-role{
-  padding:16px 20px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid var(--border);
-}
-
-/* FOOTER */
-.footer{
-  text-align:center;
-  margin-top:60px;
-  opacity:.6;
-}
 </style>
 </head>
+
 <body>
+
+<canvas id="particles"></canvas>
 
 <div class="container">
 
 <div class="header">
-  <div class="header-top">
-    <div class="status-wrapper">
-      <div class="status-dot"></div>
-    </div>
-    <h1>Shoot a Brain Rot Status</h1>
-  </div>
-
-  <div class="button-group">
-    <button class="btn" onclick="toggleMode()">Toggle Mode</button>
-    <a href="mailto:Tarianh8@outlook.com" class="btn">Email</a>
-  </div>
+  <h1>System Status</h1>
+  <div class="clock" id="clock"></div>
+  <br>
+  <button class="btn" onclick="toggleMode()">Toggle Mode</button>
 </div>
 
 <div id="services"></div>
 
-<div class="card">
-  <div class="row">
-    <div class="service-title">Our Team</div>
-    <div class="badge development">CORE</div>
-  </div>
-
-  <div class="team-grid">
-    <div class="team-role"><strong>Owner:</strong> Tazz</div>
-    <div class="team-role"><strong>Co Owner:</strong> Jme</div>
-    <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
-    <div class="team-role"><strong>Administrations:</strong> Joe</div>
-  </div>
-</div>
-
-<div class="footer">Made by Tazz & Jme</div>
-
 </div>
 
 <script>
+
+/* SERVICES */
 const services=[
-{name:"Discord Bot",percent:100,status:"operational"},
-{name:"Website",percent:0,status:"maintenance"},
-{name:"Progress",percent:10,status:"development"},
-{name:"API",percent:5,status:"down"}
+{name:"Discord Bot",percent:100,status:"Operational"},
+{name:"Website",percent:75,status:"Operational"},
+{name:"Development",percent:40,status:"In Progress"},
+{name:"API",percent:15,status:"Testing"}
 ];
 
+/* RENDER */
 function render(){
 const container=document.getElementById("services");
+container.innerHTML="";
 
 services.forEach(service=>{
 const card=document.createElement("div");
@@ -299,10 +211,8 @@ card.className="card";
 
 card.innerHTML=`
 <div class="row">
-<div class="service-title">${service.name}</div>
-<div class="badge ${service.status}">
-${service.status.toUpperCase()}
-</div>
+<div><span class="status-dot"></span>${service.name}</div>
+<div class="badge">${service.status}</div>
 </div>
 <div class="progress-wrapper">
 <div class="progress-bar"></div>
@@ -317,8 +227,9 @@ const percentText=card.querySelector(".percent");
 
 setTimeout(()=>{
 bar.style.width=service.percent+"%";
-},200);
+},300);
 
+/* COUNTER */
 let count=0;
 let interval=setInterval(()=>{
 if(count>=service.percent){
@@ -327,15 +238,79 @@ clearInterval(interval);
 count++;
 percentText.textContent=count+"%";
 }
-},20);
+},15);
+
+/* 3D TILT */
+card.addEventListener("mousemove",e=>{
+const rect=card.getBoundingClientRect();
+const x=e.clientX-rect.left;
+const y=e.clientY-rect.top;
+const centerX=rect.width/2;
+const centerY=rect.height/2;
+const rotateX=-(y-centerY)/18;
+const rotateY=(x-centerX)/18;
+card.style.transform=`rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+});
+
+card.addEventListener("mouseleave",()=>{
+card.style.transform="rotateX(0) rotateY(0)";
+});
 });
 }
 
+/* CLOCK */
+function updateClock(){
+document.getElementById("clock").textContent=
+new Date().toLocaleTimeString();
+}
+setInterval(updateClock,1000);
+updateClock();
+
+/* PARTICLES */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<60;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2+1,
+dx:(Math.random()-.5)*0.4,
+dy:(Math.random()-.5)*0.4
+});
+}
+
+function animateParticles(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(0,170,255,.7)";
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fill();
+p.x+=p.dx;
+p.y+=p.dy;
+if(p.x<0||p.x>canvas.width)p.dx*=-1;
+if(p.y<0||p.y>canvas.height)p.dy*=-1;
+});
+requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+window.addEventListener("resize",()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+});
+
+/* TOGGLE MODE */
 function toggleMode(){
 document.body.classList.toggle("light");
 }
 
 render();
+
 </script>
 
 </body>
