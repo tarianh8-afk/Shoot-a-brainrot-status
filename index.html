@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shoot a Brain Rot Status</title>
+<title>Status Dashboard</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
 
@@ -14,9 +14,6 @@
   --border:rgba(255,255,255,0.08);
   --text:#ffffff;
   --green:#00ff99;
-  --purple:#a855f7;
-  --red:#ff3b5c;
-  --blue:#4cc9ff;
 }
 
 *{box-sizing:border-box}
@@ -26,53 +23,91 @@ body{
   font-family:'Inter',sans-serif;
   background:radial-gradient(circle at top,#101530 0%,#05060a 60%);
   color:var(--text);
-  padding:30px 18px;
+  padding:40px 20px;
 }
 
-/* CONTAINER */
-.container{
-  max-width:850px;
-  margin:auto;
-}
-
-/* FLOAT ANIMATION */
+/* FLOAT HEADER */
 @keyframes floatHeader {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-6px); }
   100% { transform: translateY(0px); }
 }
 
-@keyframes glowPulse {
-  0% { box-shadow: 0 0 30px rgba(168,85,247,0.2); }
-  50% { box-shadow: 0 0 60px rgba(168,85,247,0.4); }
-  100% { box-shadow: 0 0 30px rgba(168,85,247,0.2); }
-}
-
-/* HEADER */
 .header{
   background:var(--glass);
   backdrop-filter:blur(20px);
   border:1px solid var(--border);
   border-radius:25px;
-  padding:25px;
-  margin-bottom:40px;
-  animation: floatHeader 5s ease-in-out infinite,
-             glowPulse 6s ease-in-out infinite;
+  padding:30px;
+  max-width:800px;
+  margin:auto;
+  animation: floatHeader 5s ease-in-out infinite;
+  position:relative;
+}
+
+/* WATER DROP STATUS DOT */
+.status-dot{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #66ffcc, var(--green));
+  position:relative;
+  box-shadow:0 0 25px var(--green);
+  overflow:hidden;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Shine reflection */
+.status-dot::before{
+  content:"";
+  position:absolute;
+  top:2px;
+  left:3px;
+  width:8px;
+  height:8px;
+  background:rgba(255,255,255,0.8);
+  border-radius:50%;
+  filter:blur(1px);
+  animation: shineMove 3s ease-in-out infinite;
+}
+
+/* Ripple effect */
+.status-dot::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  border:2px solid rgba(0,255,153,0.5);
+  animation:ripple 2.5s infinite;
+}
+
+@keyframes ripple{
+  0%{
+    transform:scale(1);
+    opacity:0.8;
+  }
+  100%{
+    transform:scale(2.2);
+    opacity:0;
+  }
+}
+
+@keyframes pulseGlow{
+  0%{ box-shadow:0 0 20px var(--green); }
+  50%{ box-shadow:0 0 40px var(--green); }
+  100%{ box-shadow:0 0 20px var(--green); }
+}
+
+@keyframes shineMove{
+  0%{ transform:translate(0,0); opacity:0.9;}
+  50%{ transform:translate(2px,2px); opacity:0.6;}
+  100%{ transform:translate(0,0); opacity:0.9;}
 }
 
 .header-top{
   display:flex;
   align-items:center;
   gap:15px;
-  margin-bottom:20px;
-}
-
-.status-dot{
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 15px var(--green);
 }
 
 h1{
@@ -82,15 +117,16 @@ h1{
 }
 
 .button-group{
+  margin-top:20px;
   display:flex;
   gap:15px;
 }
 
 .btn{
   flex:1;
-  text-align:center;
   padding:12px;
   border-radius:50px;
+  text-align:center;
   border:1px solid var(--border);
   background:rgba(255,255,255,0.05);
   backdrop-filter:blur(15px);
@@ -104,227 +140,21 @@ h1{
   box-shadow:0 0 20px rgba(255,255,255,0.6);
   transform:translateY(-2px);
 }
-
-/* CARD */
-.card{
-  background:var(--glass);
-  backdrop-filter:blur(20px);
-  border:1px solid var(--border);
-  border-radius:30px;
-  padding:30px;
-  margin-bottom:35px;
-  transition:0.3s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 0 40px rgba(76,201,255,0.2);
-}
-
-.row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.service-title{
-  font-size:22px;
-  font-weight:700;
-}
-
-/* BADGES */
-.badge{
-  padding:8px 20px;
-  border-radius:50px;
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:1px;
-}
-
-.operational{
-  color:var(--green);
-  border:2px solid var(--green);
-  box-shadow:0 0 15px var(--green);
-}
-
-.maintenance{
-  color:var(--purple);
-  border:2px solid var(--purple);
-  box-shadow:0 0 15px var(--purple);
-}
-
-.down{
-  color:var(--red);
-  border:2px solid var(--red);
-  box-shadow:0 0 15px var(--red);
-}
-
-.development{
-  color:var(--blue);
-  border:2px solid var(--blue);
-  box-shadow:0 0 15px var(--blue);
-}
-
-/* PROGRESS WRAPPER */
-.progress-wrapper{
-  background:rgba(255,255,255,0.08);
-  border-radius:30px;
-  height:22px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,0.1);
-}
-
-/* GLOWING BLUE BAR */
-.progress-bar{
-  height:100%;
-  width:0%;
-  border-radius:30px;
-  position:relative;
-  overflow:hidden;
-
-  background: linear-gradient(
-    90deg,
-    #4cc9ff 0%,
-    #3a86ff 40%,
-    #1d4ed8 100%
-  );
-
-  box-shadow:
-    0 0 15px rgba(76, 201, 255, 0.6),
-    0 0 30px rgba(58, 134, 255, 0.4);
-
-  transition: width 1.2s ease;
-}
-
-/* SHINE EFFECT */
-.progress-bar::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-100%;
-  width:100%;
-  height:100%;
-  background:linear-gradient(
-    120deg,
-    transparent 30%,
-    rgba(255,255,255,0.4) 50%,
-    transparent 70%
-  );
-  animation: shine 3s infinite;
-}
-
-@keyframes shine{
-  100%{
-    left:100%;
-  }
-}
-
-.percent{
-  margin-top:10px;
-  font-weight:600;
-}
-
-/* TEAM */
-.team-grid{
-  display:grid;
-  gap:12px;
-}
-
-.team-role{
-  padding:14px 18px;
-  border-radius:18px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid var(--border);
-  transition:0.3s;
-}
-
-.team-role:hover{
-  box-shadow:0 0 15px var(--blue);
-}
-
-.footer{
-  text-align:center;
-  margin-top:50px;
-  opacity:0.6;
-}
 </style>
 </head>
 <body>
 
-<div class="container">
-
 <div class="header">
   <div class="header-top">
     <div class="status-dot"></div>
-    <h1>Shoot a Brain Rot Status</h1>
+    <h1>System Operational</h1>
   </div>
 
   <div class="button-group">
     <button class="btn">Toggle Mode</button>
-    <a href="mailto:Tarianh8@outlook.com" class="btn">Email</a>
+    <a href="#" class="btn">Email</a>
   </div>
 </div>
-
-<div id="services"></div>
-
-<div class="card">
-  <div class="row">
-    <div class="service-title">Our Team</div>
-    <div class="badge development">CORE</div>
-  </div>
-
-  <div class="team-grid">
-    <div class="team-role"><strong>Owner:</strong> Tazz</div>
-    <div class="team-role"><strong>Co Owner:</strong> Jme</div>
-    <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
-    <div class="team-role"><strong>Administrations:</strong> Joe</div>
-    <div class="team-role"><em>More soon...</em></div>
-  </div>
-</div>
-
-<div class="footer">
-Made by Tazz & Jme
-</div>
-
-</div>
-
-<script>
-const services = [
-  {name:"Discord Bot", percent:100, status:"operational"},
-  {name:"Website", percent:30, status:"maintenance"},
-  {name:"Progress", percent:10, status:"development"},
-  {name:"support", percent:5, status:"down"}
-];
-
-function render(){
-  const container = document.getElementById("services");
-
-  services.forEach(service=>{
-    const card=document.createElement("div");
-    card.className="card";
-
-    card.innerHTML=`
-      <div class="row">
-        <div class="service-title">${service.name}</div>
-        <div class="badge ${service.status}">
-          ${service.status.toUpperCase()}
-        </div>
-      </div>
-
-      <div class="progress-wrapper">
-        <div class="progress-bar" style="width:${service.percent}%"></div>
-      </div>
-
-      <div class="percent">${service.percent}%</div>
-    `;
-
-    container.appendChild(card);
-  });
-}
-
-render();
-</script>
 
 </body>
 </html>
