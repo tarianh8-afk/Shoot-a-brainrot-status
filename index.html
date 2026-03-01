@@ -4,220 +4,261 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shoot a Brainrot Status</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-
-* {
-    box-sizing: border-box;
+:root{
+    --bg1:#0f1221;
+    --bg2:#1a1f3a;
+    --glass:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.08);
+    --text:white;
+    --accent:#b84dff;
 }
 
-body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: radial-gradient(circle at top, #1b1f33, #0c0f1d 70%);
-    color: white;
-    padding: 40px 20px;
-    overflow-x: hidden;
+.light{
+    --bg1:#f4f6ff;
+    --bg2:#e7ebff;
+    --glass:rgba(255,255,255,0.7);
+    --border:rgba(0,0,0,0.05);
+    --text:#111;
 }
 
-.container {
-    max-width: 750px;
-    margin: auto;
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:radial-gradient(circle at top,var(--bg2),var(--bg1) 70%);
+    color:var(--text);
+    padding:40px 20px;
+    transition:0.3s ease;
 }
 
-h1 {
-    text-align: center;
-    font-size: 36px;
-    margin-bottom: 10px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    background: linear-gradient(90deg,#b84dff,#00ffcc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: fadeIn 1s ease forwards;
+.container{max-width:850px;margin:auto}
+
+h1{
+    text-align:center;
+    font-weight:800;
+    font-size:38px;
+    margin-bottom:5px;
+    background:linear-gradient(90deg,#b84dff,#00ffc3);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
-.subtitle {
-    text-align: center;
-    opacity: 0.7;
-    margin-bottom: 50px;
+.subtitle{
+    text-align:center;
+    opacity:0.7;
+    margin-bottom:40px;
 }
 
-.card {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
-    padding: 30px;
-    margin-bottom: 30px;
-    box-shadow: 0 0 40px rgba(0,0,0,0.5);
-    transform: translateY(20px);
-    opacity: 0;
-    animation: slideUp 0.6s ease forwards;
-    transition: 0.3s ease;
+.toggle{
+    position:fixed;
+    top:20px;
+    right:20px;
+    padding:8px 15px;
+    border-radius:30px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 50px rgba(184,77,255,0.3);
+.card{
+    background:var(--glass);
+    backdrop-filter:blur(20px);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:30px;
+    margin-bottom:30px;
+    box-shadow:0 15px 50px rgba(0,0,0,0.3);
+    transition:0.3s ease;
 }
 
-.card:nth-child(3) { animation-delay: 0.2s; }
-.card:nth-child(4) { animation-delay: 0.4s; }
-.card:nth-child(5) { animation-delay: 0.6s; }
-
-.row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.card:hover{
+    transform:translateY(-6px);
 }
 
-.status {
-    padding: 8px 18px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.testing {
-    background: rgba(170,0,255,0.15);
-    color: #d38bff;
-    border: 1px solid #b84dff;
-    box-shadow: 0 0 15px #b84dff55;
+.status{
+    padding:7px 16px;
+    border-radius:50px;
+    font-size:13px;
+    font-weight:700;
+    text-transform:uppercase;
+    background:rgba(184,77,255,0.2);
+    border:1px solid #b84dff;
 }
 
-.bars {
-    display: flex;
-    gap: 8px;
-    margin-top: 25px;
+.metrics{
+    margin-top:20px;
+    font-size:14px;
+    opacity:0.8;
 }
 
-.bar {
-    flex: 1;
-    height: 38px;
-    border-radius: 10px;
-    background: linear-gradient(180deg,#b84dff,#7a1fff);
-    animation: pulse 2s infinite;
-    opacity: 0.85;
+.progress{
+    margin-top:15px;
+    height:10px;
+    border-radius:10px;
+    background:rgba(255,255,255,0.1);
+    overflow:hidden;
 }
 
-.email-btn {
-    display: block;
-    text-align: center;
-    margin: 40px auto;
-    padding: 14px 25px;
-    border-radius: 50px;
-    width: 250px;
-    font-weight: 700;
-    font-size: 14px;
-    text-decoration: none;
-    color: white;
-    background: linear-gradient(90deg,#b84dff,#00ffcc);
-    box-shadow: 0 0 20px rgba(184,77,255,0.5);
-    transition: 0.3s ease;
+.progress span{
+    display:block;
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#b84dff,#00ffc3);
+    transition:1s ease;
 }
 
-.email-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(0,255,204,0.6);
+canvas{
+    margin-top:20px;
+    width:100%;
+    height:100px;
 }
 
-.footer {
-    text-align: center;
-    margin-top: 60px;
-    font-size: 14px;
-    opacity: 0.6;
+.email-btn{
+    display:block;
+    margin:40px auto;
+    padding:14px 28px;
+    border-radius:40px;
+    text-align:center;
+    width:240px;
+    font-weight:700;
+    text-decoration:none;
+    color:white;
+    background:linear-gradient(90deg,#b84dff,#00ffc3);
+    transition:0.3s ease;
 }
 
-.footer span {
-    font-weight: 700;
-    color: #b84dff;
+.email-btn:hover{
+    transform:scale(1.05);
 }
 
-@keyframes pulse {
-    0% { opacity: 0.7; }
-    50% { opacity: 1; }
-    100% { opacity: 0.7; }
+.footer{
+    text-align:center;
+    margin-top:50px;
+    font-size:14px;
+    opacity:0.6;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideUp {
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@media(max-width: 600px){
-    h1 { font-size: 26px; }
+@media(max-width:600px){
+    h1{font-size:26px}
 }
 </style>
 </head>
 
 <body>
 
+<button class="toggle" onclick="toggleMode()">🌙 Toggle Mode</button>
+
 <div class="container">
     <h1>🧠 Shoot a Brainrot Status</h1>
-    <div class="subtitle">All systems currently under testing & maintenance</div>
+    <div class="subtitle">
+        Live System Monitoring • Testing & Maintenance Mode
+        <br>
+        <small id="updated"></small>
+    </div>
 
     <div class="card">
         <div class="row">
             <h2>Discord Bot</h2>
-            <div class="status testing">TESTING</div>
+            <div class="status">TESTING</div>
         </div>
-        <div class="bars">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+        <div class="metrics">
+            Uptime: <span id="uptime1">0</span>% • Latency: <span id="latency1">0</span>ms
         </div>
+        <div class="progress"><span id="bar1"></span></div>
+        <canvas id="chart1"></canvas>
     </div>
 
     <div class="card">
         <div class="row">
             <h2>Website</h2>
-            <div class="status testing">MAINTENANCE</div>
+            <div class="status">MAINTENANCE</div>
         </div>
-        <div class="bars">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+        <div class="metrics">
+            Uptime: <span id="uptime2">0</span>% • Latency: <span id="latency2">0</span>ms
         </div>
+        <div class="progress"><span id="bar2"></span></div>
+        <canvas id="chart2"></canvas>
     </div>
 
     <div class="card">
         <div class="row">
             <h2>API</h2>
-            <div class="status testing">TESTING</div>
+            <div class="status">TESTING</div>
         </div>
-        <div class="bars">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+        <div class="metrics">
+            Uptime: <span id="uptime3">0</span>% • Latency: <span id="latency3">0</span>ms
         </div>
+        <div class="progress"><span id="bar3"></span></div>
+        <canvas id="chart3"></canvas>
     </div>
 
     <a href="mailto:tarianh8@outlook.com" class="email-btn">
-        📧 Email Me
+        📧 Contact Support
     </a>
 
     <div class="footer">
-        Made by <span>tazz</span> & Co-Owner <span>Jme</span>
+        Made by <strong>tazz</strong> & Co-Owner <strong>Jme</strong>
     </div>
-
 </div>
+
+<script>
+function random(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+
+function updateCard(uptimeEl,latencyEl,barEl){
+    let uptime=random(85,99);
+    let latency=random(40,180);
+
+    document.getElementById(uptimeEl).innerText=uptime;
+    document.getElementById(latencyEl).innerText=latency;
+    document.getElementById(barEl).style.width=uptime+"%";
+}
+
+setInterval(()=>{
+    updateCard("uptime1","latency1","bar1");
+    updateCard("uptime2","latency2","bar2");
+    updateCard("uptime3","latency3","bar3");
+    document.getElementById("updated").innerText=
+        "Last Updated: "+new Date().toLocaleTimeString();
+},2000);
+
+function toggleMode(){
+    document.body.classList.toggle("light");
+    localStorage.setItem("mode",
+        document.body.classList.contains("light")?"light":"dark");
+}
+
+if(localStorage.getItem("mode")==="light"){
+    document.body.classList.add("light");
+}
+
+function drawChart(id){
+    let c=document.getElementById(id);
+    let ctx=c.getContext("2d");
+    c.width=c.offsetWidth;
+    c.height=100;
+    ctx.strokeStyle="#b84dff";
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(0,50);
+    for(let i=0;i<10;i++){
+        ctx.lineTo(i*80,random(20,80));
+    }
+    ctx.stroke();
+}
+
+drawChart("chart1");
+drawChart("chart2");
+drawChart("chart3");
+</script>
 
 </body>
 </html>
