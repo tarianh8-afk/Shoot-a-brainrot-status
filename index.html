@@ -63,6 +63,28 @@ body.light{
   animation: floatHeader 5s ease-in-out infinite;
 }
 
+.header-top{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+h1{
+  margin:0;
+  font-size:24px;
+  font-weight:800;
+}
+
+/* 🔥 ALIVE TIMER */
+.alive-timer{
+  margin-top:10px;
+  font-size:14px;
+  font-weight:600;
+  color:var(--blue);
+  letter-spacing:0.5px;
+  opacity:0.85;
+}
+
 /* STATUS DOT */
 .status-wrapper{
   position:relative;
@@ -110,23 +132,11 @@ body.light{
   100%{ transform:scale(2.4); opacity:0; }
 }
 
-.header-top{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  margin-bottom:20px;
-}
-
-h1{
-  margin:0;
-  font-size:24px;
-  font-weight:800;
-}
-
 .button-group{
   display:flex;
   gap:15px;
   flex-wrap:wrap;
+  margin-top:20px;
 }
 
 .btn{
@@ -256,6 +266,10 @@ h1{
     <h1>Shoot a Brain Rot Status</h1>
   </div>
 
+  <div class="alive-timer" id="aliveTimer">
+    Alive for: Loading...
+  </div>
+
   <div class="button-group">
     <button class="btn" id="toggleBtn">Toggle Mode</button>
     <a href="mailto:Tarianh8@outlook.com" class="btn">Email</a>
@@ -265,21 +279,6 @@ h1{
 
 <div id="services"></div>
 
-<div class="card">
-  <div class="row">
-    <div class="service-title">Our Team</div>
-    <div class="badge development">CORE</div>
-  </div>
-
-  <div class="team-grid">
-    <div class="team-role"><strong>Owner:</strong> Tazz</div>
-    <div class="team-role"><strong>Co Owner:</strong> Jme</div>
-    <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
-    <div class="team-role"><strong>Administrations:</strong> Joe</div>
-    <div class="team-role"><em>More soon...</em></div>
-  </div>
-</div>
-
 <div class="footer">
 Made by Tazz & Jme
 </div>
@@ -287,11 +286,31 @@ Made by Tazz & Jme
 </div>
 
 <script>
+
+/* 🔥 CHANGE THIS DATE TO YOUR REAL START DATE */
+const startDate = new Date("January 1, 2024 00:00:00");
+
+function updateAliveTimer(){
+  const now = new Date();
+  const diff = now - startDate;
+
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff / (1000*60*60)) % 24);
+  const minutes = Math.floor((diff / (1000*60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("aliveTimer").textContent =
+    `Alive for: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+setInterval(updateAliveTimer,1000);
+updateAliveTimer();
+
 const services = [
   {name:"Discord Bot", percent:100, status:"operational"},
-  {name:"Website", percent:0, status:"down"},
+  {name:"Website", percent:0, status:"maintenance"},
   {name:"Progress", percent:10, status:"development"},
-  {name:"progress", percent:5, status:"down"}
+  {name:"API", percent:5, status:"down"}
 ];
 
 function render(){
@@ -377,6 +396,7 @@ function animate(){
   requestAnimationFrame(animate);
 }
 animate();
+
 </script>
 
 </body>
