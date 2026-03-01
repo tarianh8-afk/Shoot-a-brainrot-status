@@ -60,19 +60,21 @@ body.light{
   border-radius:25px;
   padding:25px;
   margin-bottom:40px;
-  animation: floatHeader 5s ease-in-out infinite;
+  animation: floatHeader 6s ease-in-out infinite;
 }
 
-/* ===== TIMER ===== */
+/* ===== CINEMATIC TIMER ===== */
 
 @keyframes floatTimer{
   0%,100%{transform:translateY(0);}
   50%{transform:translateY(-4px);}
 }
 
+/* Shine moves once slowly then pauses */
 @keyframes cinematicShine{
-  0%{background-position:-250% center;}
-  100%{background-position:250% center;}
+  0%   { background-position:-300% center; }
+  40%  { background-position:300% center; }
+  100% { background-position:300% center; }
 }
 
 .alive-timer{
@@ -85,14 +87,14 @@ body.light{
   background:linear-gradient(
     120deg,
     #4cc9ff 0%,
-    #3a86ff 35%,
-    rgba(255,255,255,0.95) 48%,
-    rgba(255,255,255,0.95) 52%,
-    #3a86ff 65%,
+    #3a86ff 40%,
+    rgba(255,255,255,0.95) 49%,
+    rgba(255,255,255,0.95) 51%,
+    #3a86ff 60%,
     #1d4ed8 100%
   );
 
-  background-size:400% auto;
+  background-size:500% auto;
 
   background-clip:text;
   -webkit-background-clip:text;
@@ -101,7 +103,7 @@ body.light{
 
   animation:
     floatTimer 4s ease-in-out infinite,
-    cinematicShine 8s cubic-bezier(.4,0,.2,1) infinite;
+    cinematicShine 14s ease-in-out infinite;
 }
 
 /* STATUS DOT */
@@ -247,14 +249,14 @@ h1{
   top:0;
   left:-100%;
   height:100%;
-  width:40%;
+  width:35%;
   background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.6) 50%,transparent 100%);
   transform:skewX(-20deg);
-  animation: slideShine 3s ease-in-out infinite;
+  animation: slideShine 4s ease-in-out infinite;
 }
 
 @keyframes slideShine{
-  0%{ left:-100%; }
+  0%{ left:-120%; }
   100%{ left:120%; }
 }
 
@@ -309,43 +311,27 @@ h1{
 
 <div id="services"></div>
 
-<div class="card">
-  <div class="row">
-    <div class="service-title">Our Team</div>
-    <div class="badge development">CORE</div>
-  </div>
-
-  <div class="team-grid">
-    <div class="team-role"><strong>Owner:</strong> Tazz</div>
-    <div class="team-role"><strong>Co Owner:</strong> Jme</div>
-    <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
-    <div class="team-role"><strong>Administrations:</strong> Joe</div>
-    <div class="team-role"><em>More soon...</em></div>
-  </div>
-</div>
-
 <div class="footer">
-Made by Tazz & Jme
+Made by Tazz & co owner Jme
 </div>
 
 </div>
 
 <script>
+/* SERVICES */
 const services = [
   {name:"Discord Bot", percent:100, status:"operational"},
-  {name:"Website", percent:0, status:"maintenance"},
+  {name:"Website", percent:0, status:"down"},
   {name:"Progress", percent:10, status:"development"},
-  {name:"API", percent:5, status:"down"}
+  {name:"time ", percent:100, status:"operational"}
 ];
 
 function render(){
   const container=document.getElementById("services");
   container.innerHTML="";
-
   services.forEach(service=>{
     const card=document.createElement("div");
     card.className="card";
-
     card.innerHTML=`
       <div class="row">
         <div class="service-title">${service.name}</div>
@@ -358,7 +344,6 @@ function render(){
       </div>
       <div class="percent">0%</div>
     `;
-
     container.appendChild(card);
 
     const bar=card.querySelector(".progress-bar");
@@ -377,29 +362,25 @@ function render(){
     },15);
   });
 }
-
 render();
 
+/* TOGGLE */
 document.getElementById("toggleBtn").onclick=()=>{
   document.body.classList.toggle("light");
 };
 
 /* TIMER */
 const startDate = new Date("2026-03-01T00:00:00Z");
-
 function updateAliveTimer(){
   const now = new Date();
   const diff = now - startDate;
-
   const days = Math.floor(diff / (1000*60*60*24));
   const hours = Math.floor((diff / (1000*60*60)) % 24);
   const minutes = Math.floor((diff / (1000*60)) % 60);
   const seconds = Math.floor((diff / 1000) % 60);
-
   document.getElementById("aliveTimer").textContent =
     `Alive for: ${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
-
 setInterval(updateAliveTimer,1000);
 updateAliveTimer();
 
