@@ -230,10 +230,10 @@ Nova Syndicate © 2026
 /* ===== EDIT SERVICES HERE ===== */
 
 const services=[
-  {name:"Core Network", percent:100, status:"active", label:"ACTIVE"},
-  {name:"Operations", percent:75, status:"maintenance", label:"MAINTENANCE"},
-  {name:"Expansion", percent:40, status:"beta", label:"BETA"},
-  {name:"Shadow Ops", percent:10, status:"offline", label:"OFFLINE"}
+  {name:"Core Network", percent:50, status:"offline", label:"offline"},
+  {name:"Operations", percent:0, status:"offline", label:"offline"},
+  {name:"Team", percent:0, status:"offline", label:"offline"},
+  {name:"Our Progression", percent:0, status:"offline", label:"offline"}
 ];
 
 /* =============================== */
@@ -278,7 +278,7 @@ function render(){
 render();
 
 /* TIMER */
-const startDate=new Date("2026-01-01T00:00:00Z");
+const startDate=new Date("2026-01-03T00:00:00Z");
 
 function updateTimer(){
   const now=new Date();
