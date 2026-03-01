@@ -9,9 +9,8 @@
 
 <style>
 :root{
-  --glass:rgba(20,25,45,0.55);
+  --glass:rgba(20,25,45,0.6);
   --border:rgba(255,255,255,0.08);
-  --text:#ffffff;
   --green:#00ff99;
   --purple:#a855f7;
   --red:#ff3b5c;
@@ -23,60 +22,81 @@
 body{
   font-family:'Inter',sans-serif;
   background:radial-gradient(circle at top,#101530 0%,#05060a 60%);
-  color:var(--text);
-  padding:30px 18px;
+  color:white;
   overflow-x:hidden;
 }
 
-/* ================= CINEMATIC LOADER ================= */
+/* ================= LOADER ================= */
 
 #loader{
   position:fixed;
   inset:0;
-  background:radial-gradient(circle at center,#0c1025 0%,#05060a 70%);
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
   z-index:9999;
-  animation:fadeIn 1s ease;
+  overflow:hidden;
   transition:opacity .8s ease;
 }
 
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
+/* Animated background */
+#loader::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,#05060a,#0c1025,#101530,#0c1025,#05060a);
+  background-size:300% 300%;
+  animation:bgMove 8s ease infinite;
+  z-index:-1;
 }
 
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* Floating Shine Text */
 .loader-title{
-  font-size:30px;
+  font-size:34px;
   font-weight:800;
-  margin-bottom:35px;
-  letter-spacing:2px;
-  background:linear-gradient(90deg,#4cc9ff,#ffffff,#4cc9ff);
-  background-size:200% 100%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:glowText 2s linear infinite, pulseText 2.5s ease-in-out infinite;
+  margin-bottom:40px;
+  position:relative;
+  overflow:hidden;
+  animation:floatText 4s ease-in-out infinite;
 }
 
-@keyframes glowText{
-  0%{background-position:0% 0}
-  100%{background-position:200% 0}
+@keyframes floatText{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+  100%{transform:translateY(0)}
 }
 
-@keyframes pulseText{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.05)}
+.loader-title::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-150%;
+  width:50%;
+  height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.9),transparent);
+  transform:skewX(-20deg);
+  animation:textShine 2.5s infinite;
 }
 
+@keyframes textShine{
+  0%{left:-150%}
+  100%{left:150%}
+}
+
+/* Loader bar */
 .loader-bar-wrapper{
   width:320px;
   height:22px;
   background:rgba(255,255,255,0.1);
   border-radius:50px;
   overflow:hidden;
-  box-shadow:0 0 20px rgba(76,201,255,.2);
 }
 
 .loader-bar{
@@ -99,27 +119,17 @@ body{
   100%{background-position:200%}
 }
 
-/* ================= PARTICLES ================= */
-
-#particles{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-}
+/* ================= MAIN SITE ================= */
 
 .container{
   max-width:850px;
   margin:auto;
+  padding:40px 20px;
   opacity:0;
   transition:opacity .8s ease;
 }
 
-/* Floating header */
-
-@keyframes floatHeader{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-6px)}
-}
+/* Header */
 
 .header{
   background:var(--glass);
@@ -128,10 +138,9 @@ body{
   border-radius:25px;
   padding:25px;
   margin-bottom:40px;
-  animation:floatHeader 5s ease-in-out infinite;
 }
 
-/* Status Dot Ripple */
+/* Ripple status dot */
 
 .status-wrapper{
   position:relative;
@@ -158,7 +167,7 @@ body{
   animation:ripple 3s infinite;
 }
 
-.ring:nth-child(3){animation-delay:1s}
+.ring:nth-child(3){animation-delay:1.2s}
 
 @keyframes ripple{
   0%{transform:scale(1);opacity:.6}
@@ -175,30 +184,6 @@ body{
 h1{
   font-size:24px;
   font-weight:800;
-}
-
-.button-group{
-  display:flex;
-  gap:15px;
-}
-
-.btn{
-  flex:1;
-  padding:12px;
-  border-radius:50px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(15px);
-  color:white;
-  text-align:center;
-  text-decoration:none;
-  font-weight:600;
-  transition:.3s;
-}
-
-.btn:hover{
-  box-shadow:0 0 20px rgba(255,255,255,.6);
-  transform:translateY(-2px);
 }
 
 /* Cards */
@@ -231,10 +216,10 @@ h1{
   font-weight:700;
 }
 
-.operational{color:var(--green);border:2px solid var(--green);box-shadow:0 0 15px var(--green)}
-.maintenance{color:var(--purple);border:2px solid var(--purple);box-shadow:0 0 15px var(--purple)}
-.down{color:var(--red);border:2px solid var(--red);box-shadow:0 0 15px var(--red)}
-.development{color:var(--blue);border:2px solid var(--blue);box-shadow:0 0 15px var(--blue)}
+.operational{color:var(--green);border:2px solid var(--green)}
+.maintenance{color:var(--purple);border:2px solid var(--purple)}
+.down{color:var(--red);border:2px solid var(--red)}
+.development{color:var(--blue);border:2px solid var(--blue)}
 
 .progress-wrapper{
   background:rgba(255,255,255,0.08);
@@ -248,7 +233,6 @@ h1{
   height:100%;
   border-radius:30px;
   background:linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
-  box-shadow:0 0 20px rgba(76,201,255,.7);
   width:0;
   transition:width 1.5s ease;
   overflow:hidden;
@@ -259,16 +243,11 @@ h1{
   position:absolute;
   top:0;
   left:-100%;
-  height:100%;
   width:40%;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,.6) 50%,
-    transparent 100%
-  );
+  height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.7),transparent);
   transform:skewX(-20deg);
-  animation:slideShine 3s ease-in-out infinite;
+  animation:slideShine 3s infinite;
 }
 
 @keyframes slideShine{
@@ -298,8 +277,6 @@ h1{
   </div>
 </div>
 
-<canvas id="particles"></canvas>
-
 <div class="container" id="mainContent">
 
 <div class="header">
@@ -311,10 +288,6 @@ h1{
     </div>
     <h1>Shoot a Brain Rot Status</h1>
   </div>
-
-  <div class="button-group">
-    <a href="mailto:Tarianh8@outlook.com" class="btn">Email</a>
-  </div>
 </div>
 
 <div id="services"></div>
@@ -325,7 +298,7 @@ h1{
 
 <script>
 
-/* Faster cinematic loader (4s) */
+/* Fade loader */
 setTimeout(()=>{
   document.getElementById("loader").style.opacity="0";
   document.getElementById("mainContent").style.opacity="1";
@@ -335,7 +308,6 @@ setTimeout(()=>{
 },4000);
 
 /* Services */
-
 const services=[
 {name:"Discord Bot",percent:100,status:"operational"},
 {name:"Website",percent:0,status:"maintenance"},
