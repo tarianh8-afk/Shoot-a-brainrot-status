@@ -9,7 +9,7 @@
 
 <style>
 :root{
-  --bg1:#0a0f25;
+  --bg1:#0b1026;
   --bg2:#05060a;
   --glass:rgba(25,30,60,0.45);
   --border:rgba(255,255,255,0.08);
@@ -18,6 +18,15 @@
   --purple:#b46cff;
   --red:#ff3b5c;
   --blue:#4cc9ff;
+}
+
+/* LIGHT MODE */
+.light{
+  --bg1:#eef2ff;
+  --bg2:#dbeafe;
+  --glass:rgba(255,255,255,0.6);
+  --border:rgba(0,0,0,0.08);
+  --text:#111827;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -48,19 +57,19 @@ body{
 
 .header{
   background:var(--glass);
-  backdrop-filter:blur(25px);
+  backdrop-filter:blur(30px);
   border:1px solid var(--border);
   border-radius:30px;
   padding:30px;
   margin-bottom:50px;
   animation:floatHeader 6s ease-in-out infinite;
-  box-shadow:0 0 40px rgba(0,0,0,.6);
+  box-shadow:0 15px 60px rgba(0,0,0,.6);
 }
 
-/* STATUS DOT ULTRA */
+/* STATUS DOT WATER DROP */
 .status-wrapper{
   position:relative;
-  width:24px;height:24px;
+  width:26px;height:26px;
 }
 
 @keyframes blob{
@@ -73,23 +82,21 @@ body{
   background:radial-gradient(circle at 30% 30%,#66ffcc,var(--green));
   animation:blob 6s infinite ease-in-out;
   box-shadow:0 0 25px var(--green),0 0 60px var(--green);
+  position:relative;
 }
 
 .status-dot::before{
   content:"";
   position:absolute;
-  width:8px;height:8px;
-  top:4px;left:5px;
+  width:10px;height:10px;
+  top:5px;left:6px;
   background:white;
   border-radius:50%;
   filter:blur(1px);
-  animation:shineMove 3s infinite ease-in-out;
+  opacity:.9;
 }
 
-@keyframes shineMove{
-  50%{transform:translate(3px,3px)}
-}
-
+/* HEADER */
 .header-top{
   display:flex;
   align-items:center;
@@ -110,8 +117,9 @@ h1{font-size:26px;font-weight:800}
   border:1px solid var(--border);
   background:rgba(255,255,255,0.05);
   backdrop-filter:blur(20px);
-  color:white;
+  color:var(--text);
   font-weight:600;
+  cursor:pointer;
   transition:.3s;
 }
 
@@ -123,17 +131,17 @@ h1{font-size:26px;font-weight:800}
 /* CARDS */
 .card{
   background:var(--glass);
-  backdrop-filter:blur(25px);
+  backdrop-filter:blur(30px);
   border:1px solid var(--border);
   border-radius:30px;
   padding:35px;
   margin-bottom:40px;
   transition:.4s;
-  box-shadow:0 10px 40px rgba(0,0,0,.5);
+  transform-style:preserve-3d;
 }
 
 .card:hover{
-  transform:rotateX(4deg) rotateY(4deg);
+  transform:rotateX(3deg) rotateY(3deg);
 }
 
 .row{
@@ -165,8 +173,8 @@ h1{font-size:26px;font-weight:800}
   border:2px solid var(--purple);
   box-shadow:
     0 0 20px var(--purple),
-    0 0 45px rgba(180,108,255,.7),
-    inset 0 0 15px rgba(180,108,255,.4);
+    0 0 50px rgba(180,108,255,.7),
+    inset 0 0 20px rgba(180,108,255,.4);
 }
 
 .down{
@@ -181,7 +189,7 @@ h1{font-size:26px;font-weight:800}
   box-shadow:0 0 20px var(--blue);
 }
 
-/* PROGRESS */
+/* PROGRESS BAR */
 .progress-wrapper{
   background:rgba(255,255,255,0.07);
   border-radius:30px;
@@ -193,13 +201,10 @@ h1{font-size:26px;font-weight:800}
   height:100%;
   border-radius:30px;
   background:linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
-  box-shadow:0 0 25px rgba(76,201,255,.8);
+  box-shadow:0 0 30px rgba(76,201,255,.9);
   position:relative;
-  animation:fillBar 2s ease forwards;
-}
-
-@keyframes fillBar{
-  from{width:0}
+  width:0;
+  transition:width 1.5s ease;
 }
 
 .progress-bar::after{
@@ -229,7 +234,6 @@ h1{font-size:26px;font-weight:800}
   border-radius:20px;
   background:rgba(255,255,255,0.05);
   border:1px solid var(--border);
-  box-shadow:0 0 20px rgba(255,255,255,.05);
 }
 
 /* FOOTER */
@@ -253,7 +257,7 @@ h1{font-size:26px;font-weight:800}
   </div>
 
   <div class="button-group">
-    <button class="btn">Toggle Mode</button>
+    <button class="btn" onclick="toggleMode()">Toggle Mode</button>
     <a href="mailto:Tarianh8@outlook.com" class="btn">Email</a>
   </div>
 </div>
@@ -292,6 +296,7 @@ const container=document.getElementById("services");
 services.forEach(service=>{
 const card=document.createElement("div");
 card.className="card";
+
 card.innerHTML=`
 <div class="row">
 <div class="service-title">${service.name}</div>
@@ -300,12 +305,34 @@ ${service.status.toUpperCase()}
 </div>
 </div>
 <div class="progress-wrapper">
-<div class="progress-bar" style="width:${service.percent}%"></div>
+<div class="progress-bar"></div>
 </div>
-<div class="percent">${service.percent}%</div>
+<div class="percent">0%</div>
 `;
+
 container.appendChild(card);
+
+const bar=card.querySelector(".progress-bar");
+const percentText=card.querySelector(".percent");
+
+setTimeout(()=>{
+bar.style.width=service.percent+"%";
+},200);
+
+let count=0;
+let interval=setInterval(()=>{
+if(count>=service.percent){
+clearInterval(interval);
+}else{
+count++;
+percentText.textContent=count+"%";
+}
+},20);
 });
+}
+
+function toggleMode(){
+document.body.classList.toggle("light");
 }
 
 render();
