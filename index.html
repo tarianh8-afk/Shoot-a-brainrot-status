@@ -19,15 +19,15 @@
   --blue:#4cc9ff;
 }
 
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
-  margin:0;
   font-family:'Inter',sans-serif;
   background:radial-gradient(circle at top,#101530 0%,#05060a 60%);
   color:var(--text);
   padding:30px 18px;
-  transition:0.4s ease;
+  transition:.4s ease;
+  overflow-x:hidden;
 }
 
 body.light{
@@ -35,22 +35,71 @@ body.light{
   color:#111;
 }
 
-/* PARTICLES */
+/* ================= LOADER ================= */
+
+#loader{
+  position:fixed;
+  inset:0;
+  background:#05060a;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  transition:opacity 1s ease;
+}
+
+.loader-title{
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:30px;
+  letter-spacing:1px;
+}
+
+.loader-bar-wrapper{
+  width:320px;
+  height:22px;
+  background:rgba(255,255,255,0.1);
+  border-radius:50px;
+  overflow:hidden;
+}
+
+.loader-bar{
+  height:100%;
+  width:0%;
+  border-radius:50px;
+  background:linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
+  box-shadow:0 0 25px rgba(76,201,255,.8);
+  animation:loadBar 10s linear forwards;
+}
+
+@keyframes loadBar{
+  from{width:0%}
+  to{width:100%}
+}
+
+/* ================= PARTICLES ================= */
+
 #particles{
   position:fixed;
   inset:0;
   z-index:-1;
 }
 
+/* ================= LAYOUT ================= */
+
 .container{
   max-width:850px;
   margin:auto;
+  opacity:0;
+  transition:opacity 1s ease;
 }
 
-/* FLOATING HEADER */
-@keyframes floatHeader {
-  0%,100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+/* Floating header */
+
+@keyframes floatHeader{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
 }
 
 .header{
@@ -60,38 +109,26 @@ body.light{
   border-radius:25px;
   padding:25px;
   margin-bottom:40px;
-  animation: floatHeader 5s ease-in-out infinite;
+  animation:floatHeader 5s ease-in-out infinite;
 }
 
-/* STATUS DOT */
+/* Status Dot Ripple */
+
 .status-wrapper{
   position:relative;
   width:22px;
   height:22px;
 }
 
-@keyframes blob {
-  0%,100% { border-radius:50%; }
-  25% { border-radius:55% 45% 60% 40%/50% 60% 40% 50%; }
-  50% { border-radius:45% 55% 40% 60%/60% 40% 60% 40%; }
-  75% { border-radius:60% 40% 55% 45%/45% 55% 45% 55%; }
-}
-
-@keyframes pulseGlow{
-  0%,100%{ box-shadow:0 0 20px var(--green); }
-  50%{ box-shadow:0 0 45px var(--green); }
-}
-
 .status-dot{
   width:100%;
   height:100%;
-  background:radial-gradient(circle at 30% 30%, #66ffcc, var(--green));
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#66ffcc,var(--green));
+  box-shadow:0 0 20px var(--green);
   position:absolute;
-  animation: blob 6s infinite ease-in-out,
-             pulseGlow 3s infinite ease-in-out;
 }
 
-/* Water ripple rings */
 .ring{
   position:absolute;
   width:100%;
@@ -102,12 +139,11 @@ body.light{
   animation:ripple 3s infinite;
 }
 
-.ring:nth-child(3){ animation-delay:1s }
-.ring:nth-child(4){ animation-delay:2s }
+.ring:nth-child(3){animation-delay:1s}
 
 @keyframes ripple{
-  0%{ transform:scale(1); opacity:0.6; }
-  100%{ transform:scale(2.4); opacity:0; }
+  0%{transform:scale(1);opacity:.6}
+  100%{transform:scale(2.4);opacity:0}
 }
 
 .header-top{
@@ -118,7 +154,6 @@ body.light{
 }
 
 h1{
-  margin:0;
   font-size:24px;
   font-weight:800;
 }
@@ -130,25 +165,26 @@ h1{
 
 .btn{
   flex:1;
-  text-align:center;
   padding:12px;
   border-radius:50px;
   border:1px solid var(--border);
   background:rgba(255,255,255,0.05);
   backdrop-filter:blur(15px);
   color:white;
+  text-align:center;
   text-decoration:none;
   font-weight:600;
-  transition:0.3s;
   cursor:pointer;
+  transition:.3s;
 }
 
 .btn:hover{
-  box-shadow:0 0 20px rgba(255,255,255,0.6);
+  box-shadow:0 0 20px rgba(255,255,255,.6);
   transform:translateY(-2px);
 }
 
-/* CARDS */
+/* Cards */
+
 .card{
   background:var(--glass);
   backdrop-filter:blur(20px);
@@ -177,10 +213,10 @@ h1{
   font-weight:700;
 }
 
-.operational{ color:var(--green); border:2px solid var(--green); box-shadow:0 0 15px var(--green);}
-.maintenance{ color:var(--purple); border:2px solid var(--purple); box-shadow:0 0 15px var(--purple);}
-.down{ color:var(--red); border:2px solid var(--red); box-shadow:0 0 15px var(--red);}
-.development{ color:var(--blue); border:2px solid var(--blue); box-shadow:0 0 15px var(--blue);}
+.operational{color:var(--green);border:2px solid var(--green);box-shadow:0 0 15px var(--green)}
+.maintenance{color:var(--purple);border:2px solid var(--purple);box-shadow:0 0 15px var(--purple)}
+.down{color:var(--red);border:2px solid var(--red);box-shadow:0 0 15px var(--red)}
+.development{color:var(--blue);border:2px solid var(--blue);box-shadow:0 0 15px var(--blue)}
 
 .progress-wrapper{
   background:rgba(255,255,255,0.08);
@@ -193,14 +229,15 @@ h1{
   position:relative;
   height:100%;
   border-radius:30px;
-  background: linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
+  background:linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
   box-shadow:0 0 20px rgba(76,201,255,.7);
   width:0;
   transition:width 1.5s ease;
-  overflow:hidden; /* IMPORTANT */
+  overflow:hidden;
 }
 
-/* Shine INSIDE the blue fill only */
+/* Shine clipped inside */
+
 .progress-bar::after{
   content:"";
   position:absolute;
@@ -211,16 +248,16 @@ h1{
   background:linear-gradient(
     120deg,
     transparent 0%,
-    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,.6) 50%,
     transparent 100%
   );
   transform:skewX(-20deg);
-  animation: slideShine 3s ease-in-out infinite;
+  animation:slideShine 3s ease-in-out infinite;
 }
 
 @keyframes slideShine{
-  0%{ left:-100%; }
-  100%{ left:120%; }
+  0%{left:-100%}
+  100%{left:120%}
 }
 
 .percent{
@@ -228,7 +265,7 @@ h1{
   font-weight:600;
 }
 
-.team-grid{ display:grid; gap:12px; }
+.team-grid{display:grid;gap:12px}
 
 .team-role{
   padding:14px 18px;
@@ -240,16 +277,23 @@ h1{
 .footer{
   text-align:center;
   margin-top:50px;
-  opacity:0.6;
+  opacity:.6;
 }
 </style>
 </head>
 
 <body>
 
+<div id="loader">
+  <div class="loader-title">Status Loading...</div>
+  <div class="loader-bar-wrapper">
+    <div class="loader-bar"></div>
+  </div>
+</div>
+
 <canvas id="particles"></canvas>
 
-<div class="container">
+<div class="container" id="mainContent">
 
 <div class="header">
   <div class="header-top">
@@ -274,7 +318,6 @@ h1{
     <div class="service-title">Our Team</div>
     <div class="badge development">CORE</div>
   </div>
-
   <div class="team-grid">
     <div class="team-role"><strong>Owner:</strong> Tazz</div>
     <div class="team-role"><strong>Co Owner:</strong> Jme</div>
@@ -284,67 +327,67 @@ h1{
   </div>
 </div>
 
-<div class="footer">
-Made by Tazz & Jme
-</div>
+<div class="footer">Made by Tazz & Jme</div>
 
 </div>
 
 <script>
-const services = [
-  {name:"Discord Bot", percent:100, status:"operational"},
-  {name:"Website", percent:0, status:"maintenance"},
-  {name:"Progress", percent:10, status:"development"},
-  {name:"API", percent:5, status:"down"}
+
+/* Loader reveal */
+setTimeout(()=>{
+  document.getElementById("loader").style.opacity="0";
+  document.getElementById("mainContent").style.opacity="1";
+  setTimeout(()=>{document.getElementById("loader").style.display="none"},1000);
+},10000);
+
+/* Services */
+
+const services=[
+{name:"Discord Bot",percent:100,status:"operational"},
+{name:"Website",percent:0,status:"maintenance"},
+{name:"Progress",percent:10,status:"development"},
+{name:"API",percent:5,status:"down"}
 ];
 
 function render(){
   const container=document.getElementById("services");
-  container.innerHTML="";
-
   services.forEach(service=>{
     const card=document.createElement("div");
     card.className="card";
-
     card.innerHTML=`
       <div class="row">
         <div class="service-title">${service.name}</div>
-        <div class="badge ${service.status}">
-          ${service.status.toUpperCase()}
-        </div>
+        <div class="badge ${service.status}">${service.status.toUpperCase()}</div>
       </div>
       <div class="progress-wrapper">
         <div class="progress-bar"></div>
       </div>
       <div class="percent">0%</div>
     `;
-
     container.appendChild(card);
 
     const bar=card.querySelector(".progress-bar");
     const percentText=card.querySelector(".percent");
 
-    setTimeout(()=>{ bar.style.width=service.percent+"%"; },200);
+    setTimeout(()=>{bar.style.width=service.percent+"%"},200);
 
     let count=0;
     let interval=setInterval(()=>{
-      if(count>=service.percent){
-        clearInterval(interval);
-      }else{
-        count++;
-        percentText.textContent=count+"%";
-      }
+      if(count>=service.percent){clearInterval(interval)}
+      else{count++;percentText.textContent=count+"%"}
     },15);
   });
 }
-
 render();
+
+/* Toggle */
 
 document.getElementById("toggleBtn").onclick=()=>{
   document.body.classList.toggle("light");
 };
 
-/* PARTICLES */
+/* Particles */
+
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
 
@@ -381,7 +424,7 @@ function animate(){
   requestAnimationFrame(animate);
 }
 animate();
-</script>
 
+</script>
 </body>
 </html>
