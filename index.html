@@ -63,19 +63,31 @@ body.light{
   animation: floatHeader 5s ease-in-out infinite;
 }
 
-/* 🔥 TIMER STYLE */
+/* 🔥 TIMER */
 @keyframes floatTimer{
   0%,100%{transform:translateY(0);}
   50%{transform:translateY(-4px);}
 }
 
+@keyframes gradientMove{
+  0%{background-position:0% center;}
+  100%{background-position:200% center;}
+}
+
+@keyframes shineSlide{
+  0%{ left:-120%; }
+  100%{ left:120%; }
+}
+
 .alive-timer{
-  margin:15px 0 20px 0;
+  margin:20px auto;
   text-align:center;
   font-size:18px;
   font-weight:800;
   position:relative;
-  display:inline-block;
+  display:block;
+  width:fit-content;
+  overflow:hidden;
 
   background:linear-gradient(
     90deg,
@@ -96,18 +108,14 @@ body.light{
     gradientMove 4s linear infinite;
 }
 
-@keyframes gradientMove{
-  0%{background-position:0% center;}
-  100%{background-position:200% center;}
-}
-
 .alive-timer::after{
   content:"";
   position:absolute;
   top:0;
-  left:-100%;
+  left:-120%;
   height:100%;
-  width:40%;
+  width:50%;
+  pointer-events:none;
   background:linear-gradient(
     120deg,
     transparent 0%,
@@ -115,12 +123,7 @@ body.light{
     transparent 100%
   );
   transform:skewX(-20deg);
-  animation: shineSlide 3s ease-in-out infinite;
-}
-
-@keyframes shineSlide{
-  0%{left:-100%;}
-  100%{left:150%;}
+  animation:shineSlide 3s ease-in-out infinite;
 }
 
 /* STATUS DOT */
@@ -208,7 +211,7 @@ h1{
   transform:translateY(-2px);
 }
 
-/* REST OF YOUR CSS (UNCHANGED) */
+/* REST OF YOUR ORIGINAL STYLES */
 .card{
   background:var(--glass);
   backdrop-filter:blur(20px);
@@ -315,7 +318,6 @@ h1{
     <h1>Shoot a Brain Rot Status</h1>
   </div>
 
-  <!-- 🔥 GLOBAL TIMER ADDED -->
   <div class="alive-timer" id="aliveTimer">
     Alive for: 0d 0h 0m 0s
   </div>
@@ -328,21 +330,6 @@ h1{
 </div>
 
 <div id="services"></div>
-
-<div class="card">
-  <div class="row">
-    <div class="service-title">Our Team</div>
-    <div class="badge development">CORE</div>
-  </div>
-
-  <div class="team-grid">
-    <div class="team-role"><strong>Owner:</strong> Tazz</div>
-    <div class="team-role"><strong>Co Owner:</strong> Jme</div>
-    <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
-    <div class="team-role"><strong>Administrations:</strong> Joe</div>
-    <div class="team-role"><em>More soon...</em></div>
-  </div>
-</div>
 
 <div class="footer">
 Made by Tazz & Jme
@@ -371,7 +358,7 @@ function updateAliveTimer(){
 setInterval(updateAliveTimer,1000);
 updateAliveTimer();
 
-/* YOUR ORIGINAL JS BELOW (UNCHANGED) */
+/* REST OF YOUR ORIGINAL JS (UNCHANGED) */
 
 const services = [
   {name:"Discord Bot", percent:100, status:"operational"},
