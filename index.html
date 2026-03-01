@@ -3,26 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shoot a Brain Rot Status</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Status</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
-    --bg1:#0f1222;
-    --bg2:#1b1f3a;
-    --glass:rgba(255,255,255,0.06);
-    --border:rgba(255,255,255,0.12);
+    --bg:#05060a;
+    --card:#0b0d18;
+    --border:#1b1f33;
     --text:#ffffff;
-    --accent:#a855f7;
-}
-
-.light{
-    --bg1:#eef1ff;
-    --bg2:#f8f9ff;
-    --glass:rgba(255,255,255,0.7);
-    --border:rgba(0,0,0,0.08);
-    --text:#111827;
-    --accent:#9333ea;
+    --green:#00ff99;
+    --purple:#a855f7;
+    --red:#ff3b5c;
 }
 
 *{box-sizing:border-box}
@@ -30,37 +22,47 @@
 body{
     margin:0;
     font-family:'Inter',sans-serif;
-    background:linear-gradient(160deg,var(--bg1),var(--bg2));
+    background:var(--bg);
     color:var(--text);
-    padding:60px 20px;
-    transition:0.4s ease;
+    padding:40px 20px;
 }
 
 .container{
-    max-width:850px;
+    max-width:900px;
     margin:auto;
 }
 
+/* HEADER */
 .header{
-    backdrop-filter:blur(25px);
-    background:var(--glass);
+    background:var(--card);
     border:1px solid var(--border);
-    padding:30px 40px;
-    border-radius:30px;
+    border-radius:25px;
+    padding:25px 30px;
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:50px;
-    flex-wrap:wrap;
+    box-shadow:0 0 40px rgba(0,0,0,0.8);
+}
+
+.title-wrap{
+    display:flex;
+    align-items:center;
     gap:15px;
-    box-shadow:0 0 40px rgba(168,85,247,0.15);
+}
+
+.status-dot{
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 15px var(--green);
 }
 
 h1{
-    font-size:24px;
     margin:0;
-    font-weight:700;
-    letter-spacing:0.5px;
+    font-size:26px;
+    font-weight:800;
 }
 
 .button-group{
@@ -68,42 +70,30 @@ h1{
     gap:15px;
 }
 
-.glass-btn{
-    padding:12px 26px;
+.btn{
+    padding:10px 22px;
     border-radius:50px;
     border:1px solid var(--border);
-    background:var(--glass);
-    color:var(--text);
-    font-weight:600;
-    cursor:pointer;
-    text-decoration:none;
-    backdrop-filter:blur(20px);
-    transition:0.3s ease;
-    min-width:130px;
-    text-align:center;
-}
-
-.glass-btn:hover{
-    background:var(--accent);
+    background:#0f1222;
     color:white;
-    box-shadow:0 0 25px var(--accent);
-    transform:translateY(-2px);
+    text-decoration:none;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.3s;
 }
 
+.btn:hover{
+    box-shadow:0 0 15px white;
+}
+
+/* CARD */
 .card{
-    backdrop-filter:blur(25px);
-    background:var(--glass);
+    background:var(--card);
     border:1px solid var(--border);
     border-radius:30px;
-    padding:40px;
+    padding:35px;
     margin-bottom:40px;
-    box-shadow:0 0 35px rgba(168,85,247,0.1);
-    transition:0.3s ease;
-}
-
-.card:hover{
-    box-shadow:0 0 40px rgba(168,85,247,0.25);
-    transform:translateY(-4px);
+    box-shadow:0 0 60px rgba(0,0,0,0.8);
 }
 
 .row{
@@ -113,32 +103,54 @@ h1{
     margin-bottom:25px;
 }
 
-.status{
+.service-title{
+    font-size:24px;
+    font-weight:700;
+}
+
+/* STATUS BADGE */
+.badge{
+    padding:8px 20px;
+    border-radius:50px;
     font-size:13px;
-    font-weight:600;
-    opacity:0.7;
-    letter-spacing:0.5px;
+    font-weight:700;
+    letter-spacing:1px;
 }
 
-.progress-wrapper{
-    background:rgba(255,255,255,0.08);
-    border-radius:20px;
-    overflow:hidden;
-    height:18px;
+.operational{
+    color:var(--green);
+    border:2px solid var(--green);
+    box-shadow:0 0 15px var(--green);
 }
 
-.progress-bar{
-    height:100%;
-    background:linear-gradient(90deg,var(--accent),#d8b4fe);
-    box-shadow:0 0 20px var(--accent);
+.maintenance{
+    color:var(--purple);
+    border:2px solid var(--purple);
+    box-shadow:0 0 15px var(--purple);
 }
 
-.percent{
-    margin-top:12px;
-    font-size:13px;
-    opacity:0.8;
+.down{
+    color:var(--red);
+    border:2px solid var(--red);
+    box-shadow:0 0 15px var(--red);
 }
 
+/* SEGMENTED BAR */
+.bar{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+}
+
+.segment{
+    width:14px;
+    height:40px;
+    border-radius:6px;
+    background:white;
+    border:2px solid black;
+}
+
+/* TEAM */
 .team-grid{
     display:grid;
     gap:12px;
@@ -148,23 +160,19 @@ h1{
 .team-role{
     padding:14px 18px;
     border-radius:18px;
-    background:rgba(255,255,255,0.05);
+    background:#111325;
     border:1px solid var(--border);
-    font-weight:500;
-    transition:0.3s ease;
+    transition:0.3s;
 }
 
 .team-role:hover{
-    background:var(--accent);
-    box-shadow:0 0 20px var(--accent);
-    color:white;
+    box-shadow:0 0 20px var(--purple);
 }
 
 .footer{
     text-align:center;
-    margin-top:70px;
+    margin-top:60px;
     opacity:0.5;
-    font-size:14px;
 }
 </style>
 </head>
@@ -172,83 +180,71 @@ h1{
 
 <div class="container">
 
-    <div class="header">
-        <h1>🧠 Shoot a Brain Rot Status</h1>
-
-        <div class="button-group">
-            <button class="glass-btn" onclick="toggleMode()">Toggle Mode</button>
-            <a class="glass-btn" href="mailto:Tarianh8@outlook.com">Email Us</a>
-        </div>
+<div class="header">
+    <div class="title-wrap">
+        <div class="status-dot"></div>
+        <h1>Shoot a Brain Rot Status</h1>
     </div>
 
-    <div id="services"></div>
-
-    <!-- TEAM SECTION -->
-    <div class="card">
-        <div class="row">
-            <h2>Our Team</h2>
-            <div class="status">PROJECT STAFF</div>
-        </div>
-
-        <div class="team-grid">
-            <div class="team-role"><strong>Owner:</strong> Tazz</div>
-            <div class="team-role"><strong>Co Owner:</strong> Jme</div>
-            <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
-            <div class="team-role"><strong>Administrations:</strong> idk (Joe)</div>
-            <div class="team-role"><em>More soon...</em></div>
-        </div>
+    <div class="button-group">
+        <button class="btn">Toggle Mode</button>
+        <a href="mailto:Tarianh8@outlook.com" class="btn">Email</a>
     </div>
-
-    <div class="footer">
-        Made by <strong>Tazz</strong> & Co-Owner <strong>Jme</strong>
-    </div>
-
 </div>
 
-<script>
-let services = [
-    {name:"Discord Bot", progress:40},
-    {name:"Website", progress:65},
-    {name:"API", progress:20}
-];
+<!-- SERVICES -->
 
-function render(){
-    const container = document.getElementById("services");
-    container.innerHTML="";
+<div class="card">
+    <div class="row">
+        <div class="service-title">Discord Bot</div>
+        <div class="badge operational">OPERATIONAL</div>
+    </div>
+    <div class="bar">
+        ${'<div class="segment"></div>'.repeat(30)}
+    </div>
+</div>
 
-    services.forEach((service)=>{
-        const card=document.createElement("div");
-        card.className="card";
+<div class="card">
+    <div class="row">
+        <div class="service-title">Website</div>
+        <div class="badge maintenance">MAINTENANCE</div>
+    </div>
+    <div class="bar">
+        ${'<div class="segment"></div>'.repeat(30)}
+    </div>
+</div>
 
-        card.innerHTML=`
-            <div class="row">
-                <h2>${service.name}</h2>
-                <div class="status">MAINTENANCE PROGRESS</div>
-            </div>
+<div class="card">
+    <div class="row">
+        <div class="service-title">API</div>
+        <div class="badge down">DOWN</div>
+    </div>
+    <div class="bar">
+        ${'<div class="segment"></div>'.repeat(30)}
+    </div>
+</div>
 
-            <div class="progress-wrapper">
-                <div class="progress-bar" style="width:${service.progress}%"></div>
-            </div>
+<!-- TEAM SECTION -->
+<div class="card">
+    <div class="row">
+        <div class="service-title">Our Team</div>
+        <div class="badge maintenance">CORE</div>
+    </div>
 
-            <div class="percent">${service.progress}% Complete</div>
-        `;
+    <div class="team-grid">
+        <div class="team-role"><strong>Owner:</strong> Tazz</div>
+        <div class="team-role"><strong>Co Owner:</strong> Jme</div>
+        <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
+        <div class="team-role"><strong>Administrations:</strong> idk (Joe)</div>
+        <div class="team-role"><em>More soon...</em></div>
+    </div>
+</div>
 
-        container.appendChild(card);
-    });
-}
+<div class="footer">
+Made by Tazz & Jme
+</div>
 
-function toggleMode(){
-    document.body.classList.toggle("light");
-    localStorage.setItem("mode",
-        document.body.classList.contains("light")?"light":"dark");
-}
-
-if(localStorage.getItem("mode")==="light"){
-    document.body.classList.add("light");
-}
-
-render();
-</script>
+</div>
 
 </body>
 </html>
