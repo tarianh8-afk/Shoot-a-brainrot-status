@@ -63,20 +63,15 @@ body.light{
   animation: floatHeader 5s ease-in-out infinite;
 }
 
-/* 🔥 TIMER */
+/* 🔥 TIMER (REAL SHINE INSIDE TEXT) */
 @keyframes floatTimer{
   0%,100%{transform:translateY(0);}
   50%{transform:translateY(-4px);}
 }
 
 @keyframes gradientMove{
-  0%{background-position:0% center;}
+  0%{background-position:-200% center;}
   100%{background-position:200% center;}
-}
-
-@keyframes shineSlide{
-  0%{ left:-120%; }
-  100%{ left:120%; }
 }
 
 .alive-timer{
@@ -84,20 +79,21 @@ body.light{
   text-align:center;
   font-size:18px;
   font-weight:800;
-  position:relative;
   display:block;
   width:fit-content;
-  overflow:hidden;
 
   background:linear-gradient(
-    90deg,
-    #4cc9ff,
-    #3a86ff,
-    #1d4ed8,
-    #3a86ff,
-    #4cc9ff
+    120deg,
+    #4cc9ff 0%,
+    #3a86ff 25%,
+    #ffffff 40%,
+    #ffffff 50%,
+    #3a86ff 65%,
+    #1d4ed8 100%
   );
-  background-size:200% auto;
+
+  background-size:300% auto;
+
   background-clip:text;
   -webkit-background-clip:text;
   color:transparent;
@@ -105,25 +101,7 @@ body.light{
 
   animation:
     floatTimer 4s ease-in-out infinite,
-    gradientMove 4s linear infinite;
-}
-
-.alive-timer::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-120%;
-  height:100%;
-  width:50%;
-  pointer-events:none;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.9) 50%,
-    transparent 100%
-  );
-  transform:skewX(-20deg);
-  animation:shineSlide 3s ease-in-out infinite;
+    gradientMove 3s linear infinite;
 }
 
 /* STATUS DOT */
@@ -285,15 +263,6 @@ h1{
   font-weight:600;
 }
 
-.team-grid{ display:grid; gap:12px; }
-
-.team-role{
-  padding:14px 18px;
-  border-radius:18px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid var(--border);
-}
-
 .footer{
   text-align:center;
   margin-top:50px;
@@ -329,8 +298,6 @@ h1{
   </div>
 </div>
 
-<div id="services"></div>
-
 <div class="footer">
 Made by Tazz & Jme
 </div>
@@ -338,8 +305,6 @@ Made by Tazz & Jme
 </div>
 
 <script>
-
-/* 🌍 GLOBAL FIXED START DATE */
 const startDate = new Date("2026-03-01T00:00:00Z");
 
 function updateAliveTimer(){
@@ -357,100 +322,6 @@ function updateAliveTimer(){
 
 setInterval(updateAliveTimer,1000);
 updateAliveTimer();
-
-/* REST OF YOUR ORIGINAL JS (UNCHANGED) */
-
-const services = [
-  {name:"Discord Bot", percent:100, status:"operational"},
-  {name:"Website", percent:0, status:"maintenance"},
-  {name:"Progress", percent:10, status:"development"},
-  {name:"API", percent:5, status:"down"}
-];
-
-function render(){
-  const container=document.getElementById("services");
-  container.innerHTML="";
-
-  services.forEach(service=>{
-    const card=document.createElement("div");
-    card.className="card";
-
-    card.innerHTML=`
-      <div class="row">
-        <div class="service-title">${service.name}</div>
-        <div class="badge ${service.status}">
-          ${service.status.toUpperCase()}
-        </div>
-      </div>
-      <div class="progress-wrapper">
-        <div class="progress-bar"></div>
-      </div>
-      <div class="percent">0%</div>
-    `;
-
-    container.appendChild(card);
-
-    const bar=card.querySelector(".progress-bar");
-    const percentText=card.querySelector(".percent");
-
-    setTimeout(()=>{ bar.style.width=service.percent+"%"; },200);
-
-    let count=0;
-    let interval=setInterval(()=>{
-      if(count>=service.percent){
-        clearInterval(interval);
-      }else{
-        count++;
-        percentText.textContent=count+"%";
-      }
-    },15);
-  });
-}
-
-render();
-
-document.getElementById("toggleBtn").onclick=()=>{
-  document.body.classList.toggle("light");
-};
-
-/* PARTICLES */
-const canvas=document.getElementById("particles");
-const ctx=canvas.getContext("2d");
-
-function resize(){
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-}
-resize();
-window.addEventListener("resize",resize);
-
-let particles=[];
-for(let i=0;i<70;i++){
-  particles.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*2+1,
-    dx:(Math.random()-.5)*0.4,
-    dy:(Math.random()-.5)*0.4
-  });
-}
-
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="rgba(76,201,255,.7)";
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-    p.x+=p.dx;
-    p.y+=p.dy;
-    if(p.x<0||p.x>canvas.width)p.dx*=-1;
-    if(p.y<0||p.y>canvas.height)p.dy*=-1;
-  });
-  requestAnimationFrame(animate);
-}
-animate();
-
 </script>
 
 </body>
