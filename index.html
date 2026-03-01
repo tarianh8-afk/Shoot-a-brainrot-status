@@ -1,10 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Status Page</title>
+<meta charset="UTF-8">
+<title>Status Page</title>
+<style>
+body {
+    background: #0d0f1a;
+    font-family: Arial, sans-serif;
+    color: white;
+    margin: 0;
+    padding: 30px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.card {
+    background: #151826;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.operational {
+    background: rgba(0,255,150,0.15);
+    color: #00ff9d;
+    border: 1px solid #00ff9d;
+}
+
+.maintenance {
+    background: rgba(170,0,255,0.15);
+    color: #b84dff;
+    border: 1px solid #b84dff;
+}
+
+.down {
+    background: rgba(255,0,80,0.15);
+    color: #ff0050;
+    border: 1px solid #ff0050;
+}
+
+.bars {
+    display: flex;
+    gap: 6px;
+    margin-top: 20px;
+}
+
+.bar {
+    flex: 1;
+    height: 40px;
+    border-radius: 10px;
+    opacity: 0.8;
+}
+
+.green { background: #00ff9d; }
+.purple { background: #b84dff; }
+.red { background: #ff0050; }
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+</style>
 </head>
-<body style="background:black;color:white;text-align:center;">
-<h1>My Status Page</h1>
-<p>Website coming soon 🚀</p>
+<body>
+
+<div class="container">
+    <h1>Botify Status</h1>
+
+    <div class="card">
+        <div class="row">
+            <h2>Discord Bot</h2>
+            <div class="status operational">OPERATIONAL</div>
+        </div>
+        <div class="bars">
+            <div class="bar green"></div>
+            <div class="bar green"></div>
+            <div class="bar green"></div>
+            <div class="bar green"></div>
+            <div class="bar green"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="row">
+            <h2>Website</h2>
+            <div class="status maintenance">MAINTENANCE</div>
+        </div>
+        <div class="bars">
+            <div class="bar purple"></div>
+            <div class="bar purple"></div>
+            <div class="bar purple"></div>
+            <div class="bar purple"></div>
+            <div class="bar purple"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="row">
+            <h2>API</h2>
+            <div class="status down">DOWN</div>
+        </div>
+        <div class="bars">
+            <div class="bar red"></div>
+            <div class="bar red"></div>
+            <div class="bar red"></div>
+            <div class="bar red"></div>
+            <div class="bar red"></div>
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>
