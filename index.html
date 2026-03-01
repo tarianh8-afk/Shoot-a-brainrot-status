@@ -3,79 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shoot a Brainrot Status</title>
+<title>Botify Status</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
-    --bg1:#0f1221;
-    --bg2:#1a1f3a;
-    --glass:rgba(255,255,255,0.06);
-    --border:rgba(255,255,255,0.08);
-    --text:white;
-    --accent:#b84dff;
+    --bg:#07080f;
+    --card:#0f1324;
+    --text:#ffffff;
+    --muted:#8b8fa3;
+    --maintenance:#a855f7;
 }
 
 .light{
-    --bg1:#f4f6ff;
-    --bg2:#e7ebff;
-    --glass:rgba(255,255,255,0.7);
-    --border:rgba(0,0,0,0.05);
-    --text:#111;
+    --bg:#f5f7ff;
+    --card:#ffffff;
+    --text:#111827;
+    --muted:#6b7280;
+    --maintenance:#9333ea;
 }
 
 *{box-sizing:border-box}
 body{
     margin:0;
     font-family:'Inter',sans-serif;
-    background:radial-gradient(circle at top,var(--bg2),var(--bg1) 70%);
+    background:var(--bg);
     color:var(--text);
-    padding:40px 20px;
+    padding:30px 15px;
     transition:0.3s ease;
 }
 
-.container{max-width:850px;margin:auto}
+.container{
+    max-width:700px;
+    margin:auto;
+}
+
+.header{
+    background:var(--card);
+    padding:25px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:30px;
+    box-shadow:0 0 40px rgba(168,85,247,0.2);
+}
+
+.dot{
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:var(--maintenance);
+    box-shadow:0 0 15px var(--maintenance);
+    animation:pulse 1.8s infinite;
+}
 
 h1{
-    text-align:center;
-    font-weight:800;
-    font-size:38px;
-    margin-bottom:5px;
-    background:linear-gradient(90deg,#b84dff,#00ffc3);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.subtitle{
-    text-align:center;
-    opacity:0.7;
-    margin-bottom:40px;
-}
-
-.toggle{
-    position:fixed;
-    top:20px;
-    right:20px;
-    padding:8px 15px;
-    border-radius:30px;
-    border:none;
-    cursor:pointer;
-    font-weight:600;
+    font-size:26px;
+    margin:0;
 }
 
 .card{
-    background:var(--glass);
-    backdrop-filter:blur(20px);
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:30px;
-    margin-bottom:30px;
-    box-shadow:0 15px 50px rgba(0,0,0,0.3);
+    background:var(--card);
+    padding:25px;
+    border-radius:22px;
+    margin-bottom:25px;
     transition:0.3s ease;
+    border:1px solid rgba(255,255,255,0.04);
+    box-shadow:0 0 30px rgba(168,85,247,0.08);
 }
 
 .card:hover{
     transform:translateY(-6px);
+    box-shadow:0 0 45px rgba(168,85,247,0.25);
 }
 
 .row{
@@ -85,179 +85,164 @@ h1{
 }
 
 .status{
-    padding:7px 16px;
+    padding:7px 18px;
     border-radius:50px;
-    font-size:13px;
+    font-size:12px;
     font-weight:700;
+    letter-spacing:1px;
     text-transform:uppercase;
-    background:rgba(184,77,255,0.2);
-    border:1px solid #b84dff;
+    color:var(--maintenance);
+    border:1px solid var(--maintenance);
+    box-shadow:0 0 15px rgba(168,85,247,0.5);
 }
 
-.metrics{
-    margin-top:20px;
-    font-size:14px;
-    opacity:0.8;
+.bars{
+    margin-top:25px;
+    display:flex;
+    gap:6px;
 }
 
-.progress{
-    margin-top:15px;
-    height:10px;
-    border-radius:10px;
-    background:rgba(255,255,255,0.1);
-    overflow:hidden;
-}
-
-.progress span{
-    display:block;
-    height:100%;
-    width:0%;
-    background:linear-gradient(90deg,#b84dff,#00ffc3);
-    transition:1s ease;
-}
-
-canvas{
-    margin-top:20px;
-    width:100%;
-    height:100px;
-}
-
-.email-btn{
-    display:block;
-    margin:40px auto;
-    padding:14px 28px;
-    border-radius:40px;
-    text-align:center;
-    width:240px;
-    font-weight:700;
-    text-decoration:none;
-    color:white;
-    background:linear-gradient(90deg,#b84dff,#00ffc3);
+.bar{
+    flex:1;
+    height:40px;
+    border-radius:8px;
+    background:var(--maintenance);
+    box-shadow:0 0 15px var(--maintenance);
+    opacity:0.85;
     transition:0.3s ease;
+    animation:wave 2s infinite ease-in-out;
 }
 
-.email-btn:hover{
-    transform:scale(1.05);
+.bar:hover{
+    transform:scale(1.2);
+    box-shadow:0 0 25px var(--maintenance), 0 0 50px var(--maintenance);
+}
+
+.bar:nth-child(odd){
+    animation-delay:0.2s;
+}
+
+.bar:nth-child(even){
+    animation-delay:0.4s;
+}
+
+.toggle{
+    position:fixed;
+    top:20px;
+    right:20px;
+    padding:8px 15px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:600;
+    background:var(--maintenance);
+    color:white;
+    box-shadow:0 0 15px var(--maintenance);
 }
 
 .footer{
     text-align:center;
-    margin-top:50px;
+    margin-top:40px;
+    color:var(--muted);
     font-size:14px;
-    opacity:0.6;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);opacity:0.7}
+    50%{transform:scale(1.2);opacity:1}
+    100%{transform:scale(1);opacity:0.7}
+}
+
+@keyframes wave{
+    0%{transform:scaleY(0.8)}
+    50%{transform:scaleY(1.1)}
+    100%{transform:scaleY(0.8)}
 }
 
 @media(max-width:600px){
-    h1{font-size:26px}
+    .bar{height:35px}
 }
 </style>
 </head>
 
 <body>
 
-<button class="toggle" onclick="toggleMode()">🌙 Toggle Mode</button>
+<button class="toggle" onclick="toggleMode()">Toggle Mode</button>
 
 <div class="container">
-    <h1>🧠 Shoot a Brainrot Status</h1>
-    <div class="subtitle">
-        Live System Monitoring • Testing & Maintenance Mode
-        <br>
-        <small id="updated"></small>
+
+    <div class="header">
+        <div class="dot"></div>
+        <h1>Botify Status</h1>
     </div>
 
     <div class="card">
         <div class="row">
             <h2>Discord Bot</h2>
-            <div class="status">TESTING</div>
+            <div class="status">Maintenance</div>
         </div>
-        <div class="metrics">
-            Uptime: <span id="uptime1">0</span>% • Latency: <span id="latency1">0</span>ms
+        <div class="bars">
+            ${'<div class="bar"></div>'.repeat(30)}
         </div>
-        <div class="progress"><span id="bar1"></span></div>
-        <canvas id="chart1"></canvas>
     </div>
 
     <div class="card">
         <div class="row">
             <h2>Website</h2>
-            <div class="status">MAINTENANCE</div>
+            <div class="status">Maintenance</div>
         </div>
-        <div class="metrics">
-            Uptime: <span id="uptime2">0</span>% • Latency: <span id="latency2">0</span>ms
+        <div class="bars">
+            ${'<div class="bar"></div>'.repeat(30)}
         </div>
-        <div class="progress"><span id="bar2"></span></div>
-        <canvas id="chart2"></canvas>
+    </div>
+
+    <div class="card">
+        <div class="row">
+            <h2>Panel</h2>
+            <div class="status">Maintenance</div>
+        </div>
+        <div class="bars">
+            ${'<div class="bar"></div>'.repeat(30)}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="row">
+            <h2>Database</h2>
+            <div class="status">Maintenance</div>
+        </div>
+        <div class="bars">
+            ${'<div class="bar"></div>'.repeat(30)}
+        </div>
     </div>
 
     <div class="card">
         <div class="row">
             <h2>API</h2>
-            <div class="status">TESTING</div>
+            <div class="status">Maintenance</div>
         </div>
-        <div class="metrics">
-            Uptime: <span id="uptime3">0</span>% • Latency: <span id="latency3">0</span>ms
+        <div class="bars">
+            ${'<div class="bar"></div>'.repeat(30)}
         </div>
-        <div class="progress"><span id="bar3"></span></div>
-        <canvas id="chart3"></canvas>
     </div>
-
-    <a href="mailto:tarianh8@outlook.com" class="email-btn">
-        📧 Contact Support
-    </a>
 
     <div class="footer">
         Made by <strong>tazz</strong> & Co-Owner <strong>Jme</strong>
     </div>
+
 </div>
 
 <script>
-function random(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-
-function updateCard(uptimeEl,latencyEl,barEl){
-    let uptime=random(85,99);
-    let latency=random(40,180);
-
-    document.getElementById(uptimeEl).innerText=uptime;
-    document.getElementById(latencyEl).innerText=latency;
-    document.getElementById(barEl).style.width=uptime+"%";
-}
-
-setInterval(()=>{
-    updateCard("uptime1","latency1","bar1");
-    updateCard("uptime2","latency2","bar2");
-    updateCard("uptime3","latency3","bar3");
-    document.getElementById("updated").innerText=
-        "Last Updated: "+new Date().toLocaleTimeString();
-},2000);
-
 function toggleMode(){
     document.body.classList.toggle("light");
     localStorage.setItem("mode",
-        document.body.classList.contains("light")?"light":"dark");
+        document.body.classList.contains("light")?"light":"dark"
+    );
 }
 
 if(localStorage.getItem("mode")==="light"){
     document.body.classList.add("light");
 }
-
-function drawChart(id){
-    let c=document.getElementById(id);
-    let ctx=c.getContext("2d");
-    c.width=c.offsetWidth;
-    c.height=100;
-    ctx.strokeStyle="#b84dff";
-    ctx.lineWidth=2;
-    ctx.beginPath();
-    ctx.moveTo(0,50);
-    for(let i=0;i<10;i++){
-        ctx.lineTo(i*80,random(20,80));
-    }
-    ctx.stroke();
-}
-
-drawChart("chart1");
-drawChart("chart2");
-drawChart("chart3");
 </script>
 
 </body>
