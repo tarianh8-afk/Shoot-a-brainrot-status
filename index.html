@@ -6,7 +6,7 @@
 <title>Shoot a Brainrot Status</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
 * {
     box-sizing: border-box;
@@ -15,40 +15,57 @@
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background: radial-gradient(circle at top, #151826, #0d0f1a 70%);
+    background: radial-gradient(circle at top, #1b1f33, #0c0f1d 70%);
     color: white;
     padding: 40px 20px;
+    overflow-x: hidden;
 }
 
 .container {
-    max-width: 700px;
+    max-width: 750px;
     margin: auto;
 }
 
 h1 {
     text-align: center;
-    font-size: 32px;
-    margin-bottom: 50px;
+    font-size: 36px;
+    margin-bottom: 10px;
+    font-weight: 800;
     letter-spacing: 1px;
+    background: linear-gradient(90deg,#b84dff,#00ffcc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     animation: fadeIn 1s ease forwards;
 }
 
+.subtitle {
+    text-align: center;
+    opacity: 0.7;
+    margin-bottom: 50px;
+}
+
 .card {
-    background: rgba(255,255,255,0.03);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 18px;
-    padding: 25px;
-    margin-bottom: 25px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.4);
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
     transform: translateY(20px);
     opacity: 0;
     animation: slideUp 0.6s ease forwards;
+    transition: 0.3s ease;
 }
 
-.card:nth-child(2) { animation-delay: 0.2s; }
-.card:nth-child(3) { animation-delay: 0.4s; }
-.card:nth-child(4) { animation-delay: 0.6s; }
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 50px rgba(184,77,255,0.3);
+}
+
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.6s; }
 
 .row {
     display: flex;
@@ -57,51 +74,68 @@ h1 {
 }
 
 .status {
-    padding: 6px 14px;
+    padding: 8px 18px;
     border-radius: 50px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
-.operational {
-    background: rgba(0,255,150,0.1);
-    color: #00ff9d;
-    border: 1px solid #00ff9d;
-    box-shadow: 0 0 10px #00ff9d55;
-}
-
-.maintenance {
-    background: rgba(170,0,255,0.1);
-    color: #b84dff;
+.testing {
+    background: rgba(170,0,255,0.15);
+    color: #d38bff;
     border: 1px solid #b84dff;
-    box-shadow: 0 0 10px #b84dff55;
-}
-
-.down {
-    background: rgba(255,0,80,0.1);
-    color: #ff0050;
-    border: 1px solid #ff0050;
-    box-shadow: 0 0 10px #ff005055;
+    box-shadow: 0 0 15px #b84dff55;
 }
 
 .bars {
     display: flex;
-    gap: 6px;
-    margin-top: 20px;
+    gap: 8px;
+    margin-top: 25px;
 }
 
 .bar {
     flex: 1;
-    height: 36px;
-    border-radius: 8px;
-    opacity: 0.9;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(180deg,#b84dff,#7a1fff);
     animation: pulse 2s infinite;
+    opacity: 0.85;
 }
 
-.green { background: #00ff9d; }
-.purple { background: #b84dff; }
-.red { background: #ff0050; }
+.email-btn {
+    display: block;
+    text-align: center;
+    margin: 40px auto;
+    padding: 14px 25px;
+    border-radius: 50px;
+    width: 250px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    color: white;
+    background: linear-gradient(90deg,#b84dff,#00ffcc);
+    box-shadow: 0 0 20px rgba(184,77,255,0.5);
+    transition: 0.3s ease;
+}
+
+.email-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0,255,204,0.6);
+}
+
+.footer {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 14px;
+    opacity: 0.6;
+}
+
+.footer span {
+    font-weight: 700;
+    color: #b84dff;
+}
 
 @keyframes pulse {
     0% { opacity: 0.7; }
@@ -122,7 +156,7 @@ h1 {
 }
 
 @media(max-width: 600px){
-    h1 { font-size: 24px; }
+    h1 { font-size: 26px; }
 }
 </style>
 </head>
@@ -131,47 +165,56 @@ h1 {
 
 <div class="container">
     <h1>🧠 Shoot a Brainrot Status</h1>
+    <div class="subtitle">All systems currently under testing & maintenance</div>
 
     <div class="card">
         <div class="row">
             <h2>Discord Bot</h2>
-            <div class="status operational">OPERATIONAL</div>
+            <div class="status testing">TESTING</div>
         </div>
         <div class="bars">
-            <div class="bar green"></div>
-            <div class="bar green"></div>
-            <div class="bar green"></div>
-            <div class="bar green"></div>
-            <div class="bar green"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
     </div>
 
     <div class="card">
         <div class="row">
             <h2>Website</h2>
-            <div class="status maintenance">MAINTENANCE</div>
+            <div class="status testing">MAINTENANCE</div>
         </div>
         <div class="bars">
-            <div class="bar purple"></div>
-            <div class="bar purple"></div>
-            <div class="bar purple"></div>
-            <div class="bar purple"></div>
-            <div class="bar purple"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
     </div>
 
     <div class="card">
         <div class="row">
             <h2>API</h2>
-            <div class="status down">DOWN</div>
+            <div class="status testing">TESTING</div>
         </div>
         <div class="bars">
-            <div class="bar red"></div>
-            <div class="bar red"></div>
-            <div class="bar red"></div>
-            <div class="bar red"></div>
-            <div class="bar red"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
+    </div>
+
+    <a href="mailto:tarianh8@outlook.com" class="email-btn">
+        📧 Email Me
+    </a>
+
+    <div class="footer">
+        Made by <span>tazz</span> & Co-Owner <span>Jme</span>
     </div>
 
 </div>
