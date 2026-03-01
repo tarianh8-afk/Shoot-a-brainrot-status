@@ -3,105 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Status Dashboard</title>
+<title>Advanced Status Dashboard</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#05060a;
-  --glass:rgba(20,25,45,0.55);
-  --border:rgba(255,255,255,0.08);
-  --text:#ffffff;
+  --bg-dark:#05060a;
+  --bg-light:#e9eefc;
+  --glass-dark:rgba(20,25,45,0.55);
+  --glass-light:rgba(255,255,255,0.6);
+  --text-dark:#ffffff;
+  --text-light:#0c1020;
   --green:#00ff99;
+  --yellow:#ffd166;
+  --red:#ff4d6d;
 }
-
-*{box-sizing:border-box}
 
 body{
   margin:0;
   font-family:'Inter',sans-serif;
   background:radial-gradient(circle at top,#101530 0%,#05060a 60%);
-  color:var(--text);
+  color:var(--text-dark);
   padding:40px 20px;
+  transition:0.4s;
+}
+
+body.light{
+  background:linear-gradient(to bottom,#e9eefc,#d6def8);
+  color:var(--text-light);
+}
+
+.container{
+  max-width:850px;
+  margin:auto;
 }
 
 /* FLOAT HEADER */
 @keyframes floatHeader {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0px); }
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
 }
 
 .header{
-  background:var(--glass);
   backdrop-filter:blur(20px);
-  border:1px solid var(--border);
-  border-radius:25px;
+  border-radius:30px;
   padding:30px;
-  max-width:800px;
-  margin:auto;
-  animation: floatHeader 5s ease-in-out infinite;
+  animation: floatHeader 6s ease-in-out infinite;
   position:relative;
-}
-
-/* WATER DROP STATUS DOT */
-.status-dot{
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, #66ffcc, var(--green));
-  position:relative;
-  box-shadow:0 0 25px var(--green);
   overflow:hidden;
-  animation: pulseGlow 3s ease-in-out infinite;
+  transition:0.4s;
 }
 
-/* Shine reflection */
+body:not(.light) .header{
+  background:var(--glass-dark);
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+body.light .header{
+  background:var(--glass-light);
+  border:1px solid rgba(0,0,0,0.1);
+}
+
+/* STATUS DOT CONTAINER */
+.status-wrapper{
+  position:relative;
+  width:28px;
+  height:28px;
+}
+
+/* LIQUID MORPH */
+@keyframes blob {
+  0%,100% { border-radius:50%; }
+  25% { border-radius:55% 45% 60% 40%/50% 60% 40% 50%; }
+  50% { border-radius:45% 55% 40% 60%/60% 40% 60% 40%; }
+  75% { border-radius:60% 40% 55% 45%/45% 55% 45% 55%; }
+}
+
+.status-dot{
+  width:100%;
+  height:100%;
+  background:var(--green);
+  position:absolute;
+  animation: blob 5s infinite ease-in-out, pulseGlow 3s infinite ease-in-out;
+  box-shadow:0 0 30px var(--green);
+}
+
+/* Shine */
 .status-dot::before{
   content:"";
   position:absolute;
-  top:2px;
-  left:3px;
-  width:8px;
-  height:8px;
-  background:rgba(255,255,255,0.8);
+  width:10px;
+  height:10px;
+  top:4px;
+  left:5px;
+  background:rgba(255,255,255,0.9);
   border-radius:50%;
   filter:blur(1px);
-  animation: shineMove 3s ease-in-out infinite;
+  animation:shineMove 3s infinite ease-in-out;
 }
 
-/* Ripple effect */
-.status-dot::after{
-  content:"";
+/* MULTIPLE RIPPLE RINGS */
+.ring{
   position:absolute;
-  inset:0;
+  width:100%;
+  height:100%;
   border-radius:50%;
-  border:2px solid rgba(0,255,153,0.5);
-  animation:ripple 2.5s infinite;
+  border:2px solid currentColor;
+  opacity:0;
+  animation:ripple 3s infinite;
 }
+
+.ring:nth-child(2){ animation-delay:1s }
+.ring:nth-child(3){ animation-delay:2s }
 
 @keyframes ripple{
-  0%{
-    transform:scale(1);
-    opacity:0.8;
-  }
-  100%{
-    transform:scale(2.2);
-    opacity:0;
-  }
+  0%{ transform:scale(1); opacity:0.6; }
+  100%{ transform:scale(2.5); opacity:0; }
 }
 
+/* Glow Pulse */
 @keyframes pulseGlow{
-  0%{ box-shadow:0 0 20px var(--green); }
-  50%{ box-shadow:0 0 40px var(--green); }
-  100%{ box-shadow:0 0 20px var(--green); }
+  0%,100%{ box-shadow:0 0 20px currentColor; }
+  50%{ box-shadow:0 0 50px currentColor; }
 }
 
+/* Shine movement */
 @keyframes shineMove{
-  0%{ transform:translate(0,0); opacity:0.9;}
-  50%{ transform:translate(2px,2px); opacity:0.6;}
-  100%{ transform:translate(0,0); opacity:0.9;}
+  0%,100%{ transform:translate(0,0); }
+  50%{ transform:translate(3px,3px); }
+}
+
+/* Particle Sparkles */
+.sparkle{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:white;
+  border-radius:50%;
+  animation: sparkleAnim 2s infinite ease-in-out;
+}
+
+.sparkle:nth-child(4){ top:-5px; left:50%; animation-delay:0.5s }
+.sparkle:nth-child(5){ bottom:-5px; right:40%; animation-delay:1s }
+
+@keyframes sparkleAnim{
+  0%,100%{ opacity:0; transform:scale(0); }
+  50%{ opacity:1; transform:scale(1.5); }
 }
 
 .header-top{
@@ -110,14 +158,10 @@ body{
   gap:15px;
 }
 
-h1{
-  margin:0;
-  font-size:24px;
-  font-weight:800;
-}
+h1{ margin:0; font-size:24px; }
 
 .button-group{
-  margin-top:20px;
+  margin-top:25px;
   display:flex;
   gap:15px;
 }
@@ -127,34 +171,73 @@ h1{
   padding:12px;
   border-radius:50px;
   text-align:center;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(15px);
-  color:white;
-  text-decoration:none;
   font-weight:600;
+  cursor:pointer;
+  border:none;
   transition:0.3s;
 }
 
-.btn:hover{
-  box-shadow:0 0 20px rgba(255,255,255,0.6);
-  transform:translateY(-2px);
+body:not(.light) .btn{
+  background:rgba(255,255,255,0.08);
+  color:white;
 }
+
+body.light .btn{
+  background:rgba(0,0,0,0.08);
+  color:black;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 20px rgba(255,255,255,0.5);
+}
+
 </style>
 </head>
 <body>
 
+<div class="container">
 <div class="header">
   <div class="header-top">
-    <div class="status-dot"></div>
-    <h1>System Operational</h1>
+    <div class="status-wrapper" id="statusWrapper" style="color:var(--green)">
+      <div class="status-dot"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="sparkle"></div>
+      <div class="sparkle"></div>
+    </div>
+    <h1 id="statusText">System Operational</h1>
   </div>
 
   <div class="button-group">
-    <button class="btn">Toggle Mode</button>
-    <a href="#" class="btn">Email</a>
+    <button class="btn" onclick="toggleMode()">Toggle Mode</button>
+    <button class="btn" onclick="cycleStatus()">Change Status</button>
   </div>
 </div>
+</div>
+
+<script>
+const statuses = [
+  {text:"System Operational", color:"#00ff99"},
+  {text:"Under Maintenance", color:"#ffd166"},
+  {text:"System Down", color:"#ff4d6d"}
+];
+
+let current = 0;
+
+function cycleStatus(){
+  current = (current + 1) % statuses.length;
+  const s = statuses[current];
+  document.getElementById("statusText").innerText = s.text;
+  document.getElementById("statusWrapper").style.color = s.color;
+  document.querySelector(".status-dot").style.background = s.color;
+}
+
+function toggleMode(){
+  document.body.classList.toggle("light");
+}
+</script>
 
 </body>
 </html>
