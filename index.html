@@ -9,7 +9,6 @@
 
 <style>
 :root{
-  --bg:#05060a;
   --glass:rgba(20,25,45,0.55);
   --border:rgba(255,255,255,0.08);
   --text:#ffffff;
@@ -26,34 +25,49 @@ body{
   background:radial-gradient(circle at top,#101530 0%,#05060a 60%);
   color:var(--text);
   padding:30px 18px;
-  transition:.4s ease;
   overflow-x:hidden;
 }
 
-body.light{
-  background:#f5f7ff;
-  color:#111;
-}
-
-/* ================= LOADER ================= */
+/* ================= CINEMATIC LOADER ================= */
 
 #loader{
   position:fixed;
   inset:0;
-  background:#05060a;
+  background:radial-gradient(circle at center,#0c1025 0%,#05060a 70%);
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
   z-index:9999;
-  transition:opacity 1s ease;
+  animation:fadeIn 1s ease;
+  transition:opacity .8s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
 }
 
 .loader-title{
-  font-size:28px;
+  font-size:30px;
   font-weight:800;
-  margin-bottom:30px;
-  letter-spacing:1px;
+  margin-bottom:35px;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,#4cc9ff,#ffffff,#4cc9ff);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:glowText 2s linear infinite, pulseText 2.5s ease-in-out infinite;
+}
+
+@keyframes glowText{
+  0%{background-position:0% 0}
+  100%{background-position:200% 0}
+}
+
+@keyframes pulseText{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
 }
 
 .loader-bar-wrapper{
@@ -62,20 +76,27 @@ body.light{
   background:rgba(255,255,255,0.1);
   border-radius:50px;
   overflow:hidden;
+  box-shadow:0 0 20px rgba(76,201,255,.2);
 }
 
 .loader-bar{
   height:100%;
   width:0%;
   border-radius:50px;
-  background:linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
-  box-shadow:0 0 25px rgba(76,201,255,.8);
-  animation:loadBar 10s linear forwards;
+  background:linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8,#4cc9ff);
+  background-size:200% 100%;
+  box-shadow:0 0 25px rgba(76,201,255,.9);
+  animation:loadBar 4s linear forwards, moveGradient 2s linear infinite;
 }
 
 @keyframes loadBar{
   from{width:0%}
   to{width:100%}
+}
+
+@keyframes moveGradient{
+  0%{background-position:0%}
+  100%{background-position:200%}
 }
 
 /* ================= PARTICLES ================= */
@@ -86,13 +107,11 @@ body.light{
   z-index:-1;
 }
 
-/* ================= LAYOUT ================= */
-
 .container{
   max-width:850px;
   margin:auto;
   opacity:0;
-  transition:opacity 1s ease;
+  transition:opacity .8s ease;
 }
 
 /* Floating header */
@@ -174,7 +193,6 @@ h1{
   text-align:center;
   text-decoration:none;
   font-weight:600;
-  cursor:pointer;
   transition:.3s;
 }
 
@@ -236,8 +254,6 @@ h1{
   overflow:hidden;
 }
 
-/* Shine clipped inside */
-
 .progress-bar::after{
   content:"";
   position:absolute;
@@ -263,15 +279,6 @@ h1{
 .percent{
   margin-top:10px;
   font-weight:600;
-}
-
-.team-grid{display:grid;gap:12px}
-
-.team-role{
-  padding:14px 18px;
-  border-radius:18px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid var(--border);
 }
 
 .footer{
@@ -306,26 +313,11 @@ h1{
   </div>
 
   <div class="button-group">
-    <button class="btn" id="toggleBtn">Toggle Mode</button>
     <a href="mailto:Tarianh8@outlook.com" class="btn">Email</a>
   </div>
 </div>
 
 <div id="services"></div>
-
-<div class="card">
-  <div class="row">
-    <div class="service-title">Our Team</div>
-    <div class="badge development">CORE</div>
-  </div>
-  <div class="team-grid">
-    <div class="team-role"><strong>Owner:</strong> Tazz</div>
-    <div class="team-role"><strong>Co Owner:</strong> Jme</div>
-    <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
-    <div class="team-role"><strong>Administrations:</strong> Joe</div>
-    <div class="team-role"><em>More soon...</em></div>
-  </div>
-</div>
 
 <div class="footer">Made by Tazz & Jme</div>
 
@@ -333,12 +325,14 @@ h1{
 
 <script>
 
-/* Loader reveal */
+/* Faster cinematic loader (4s) */
 setTimeout(()=>{
   document.getElementById("loader").style.opacity="0";
   document.getElementById("mainContent").style.opacity="1";
-  setTimeout(()=>{document.getElementById("loader").style.display="none"},1000);
-},10000);
+  setTimeout(()=>{
+    document.getElementById("loader").style.display="none";
+  },800);
+},4000);
 
 /* Services */
 
@@ -379,51 +373,6 @@ function render(){
   });
 }
 render();
-
-/* Toggle */
-
-document.getElementById("toggleBtn").onclick=()=>{
-  document.body.classList.toggle("light");
-};
-
-/* Particles */
-
-const canvas=document.getElementById("particles");
-const ctx=canvas.getContext("2d");
-
-function resize(){
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-}
-resize();
-window.addEventListener("resize",resize);
-
-let particles=[];
-for(let i=0;i<70;i++){
-  particles.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*2+1,
-    dx:(Math.random()-.5)*0.4,
-    dy:(Math.random()-.5)*0.4
-  });
-}
-
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="rgba(76,201,255,.7)";
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-    p.x+=p.dx;
-    p.y+=p.dy;
-    if(p.x<0||p.x>canvas.width)p.dx*=-1;
-    if(p.y<0||p.y>canvas.height)p.dy*=-1;
-  });
-  requestAnimationFrame(animate);
-}
-animate();
 
 </script>
 </body>
