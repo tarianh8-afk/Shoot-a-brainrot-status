@@ -33,11 +33,11 @@ body{
     background:linear-gradient(160deg,var(--bg1),var(--bg2));
     color:var(--text);
     padding:60px 20px;
-    transition:0.3s ease;
+    transition:0.4s ease;
 }
 
 .container{
-    max-width:800px;
+    max-width:850px;
     margin:auto;
 }
 
@@ -50,26 +50,44 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:40px;
-    gap:15px;
+    margin-bottom:50px;
     flex-wrap:wrap;
+    gap:15px;
+    box-shadow:0 0 40px rgba(168,85,247,0.15);
 }
 
 h1{
     font-size:24px;
     margin:0;
+    font-weight:700;
+    letter-spacing:0.5px;
 }
 
-.toggle, .email-btn{
-    padding:10px 22px;
+.button-group{
+    display:flex;
+    gap:15px;
+}
+
+.glass-btn{
+    padding:12px 26px;
     border-radius:50px;
-    border:none;
-    background:var(--accent);
-    color:white;
+    border:1px solid var(--border);
+    background:var(--glass);
+    color:var(--text);
     font-weight:600;
     cursor:pointer;
     text-decoration:none;
-    display:inline-block;
+    backdrop-filter:blur(20px);
+    transition:0.3s ease;
+    min-width:130px;
+    text-align:center;
+}
+
+.glass-btn:hover{
+    background:var(--accent);
+    color:white;
+    box-shadow:0 0 25px var(--accent);
+    transform:translateY(-2px);
 }
 
 .card{
@@ -79,6 +97,13 @@ h1{
     border-radius:30px;
     padding:40px;
     margin-bottom:40px;
+    box-shadow:0 0 35px rgba(168,85,247,0.1);
+    transition:0.3s ease;
+}
+
+.card:hover{
+    box-shadow:0 0 40px rgba(168,85,247,0.25);
+    transform:translateY(-4px);
 }
 
 .row{
@@ -89,45 +114,57 @@ h1{
 }
 
 .status{
-    font-size:14px;
+    font-size:13px;
     font-weight:600;
-    opacity:0.8;
+    opacity:0.7;
+    letter-spacing:0.5px;
 }
 
 .progress-wrapper{
-    background:rgba(255,255,255,0.1);
+    background:rgba(255,255,255,0.08);
     border-radius:20px;
     overflow:hidden;
     height:18px;
-    margin-top:10px;
 }
 
 .progress-bar{
     height:100%;
     background:linear-gradient(90deg,var(--accent),#d8b4fe);
-    border-radius:20px;
+    box-shadow:0 0 20px var(--accent);
 }
 
 .percent{
-    margin-top:10px;
+    margin-top:12px;
     font-size:13px;
     opacity:0.8;
 }
 
-.team-list{
-    margin-top:20px;
-    line-height:1.8;
+.team-grid{
+    display:grid;
+    gap:12px;
+    margin-top:15px;
+}
+
+.team-role{
+    padding:14px 18px;
+    border-radius:18px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid var(--border);
     font-weight:500;
+    transition:0.3s ease;
+}
+
+.team-role:hover{
+    background:var(--accent);
+    box-shadow:0 0 20px var(--accent);
+    color:white;
 }
 
 .footer{
     text-align:center;
-    margin-top:60px;
-    opacity:0.6;
-}
-
-@media(max-width:600px){
-    body{padding:40px 15px}
+    margin-top:70px;
+    opacity:0.5;
+    font-size:14px;
 }
 </style>
 </head>
@@ -137,9 +174,10 @@ h1{
 
     <div class="header">
         <h1>🧠 Shoot a Brain Rot Status</h1>
-        <div>
-            <button class="toggle" onclick="toggleMode()">Toggle Mode</button>
-            <a class="email-btn" href="mailto:Tarianh8@outlook.com">Email Us</a>
+
+        <div class="button-group">
+            <button class="glass-btn" onclick="toggleMode()">Toggle Mode</button>
+            <a class="glass-btn" href="mailto:Tarianh8@outlook.com">Email Us</a>
         </div>
     </div>
 
@@ -149,29 +187,29 @@ h1{
     <div class="card">
         <div class="row">
             <h2>Our Team</h2>
-            <div class="status">Project Staff</div>
+            <div class="status">PROJECT STAFF</div>
         </div>
 
-        <div class="team-list">
-            <strong>Owner:</strong> Tazz <br>
-            <strong>Co Owner:</strong> Jme <br>
-            <strong>Mods:</strong> Batman, Kyle <br>
-            <strong>Administrations:</strong> idk (Joe) <br><br>
-            <em>More soon...</em>
+        <div class="team-grid">
+            <div class="team-role"><strong>Owner:</strong> Tazz</div>
+            <div class="team-role"><strong>Co Owner:</strong> Jme</div>
+            <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
+            <div class="team-role"><strong>Administrations:</strong> idk (Joe)</div>
+            <div class="team-role"><em>More soon...</em></div>
         </div>
     </div>
 
     <div class="footer">
-        Made by <strong>tazz</strong> & Co-Owner <strong>Jme</strong>
+        Made by <strong>Tazz</strong> & Co-Owner <strong>Jme</strong>
     </div>
 
 </div>
 
 <script>
 let services = [
-    {name:"Discord Bot", progress:40},
-    {name:"Website", progress:65},
-    {name:"API", progress:20}
+    {name:"Discord Bot", progress:100},
+    {name:"Website", progress:0},
+    {name:"Our progress", progress:5}
 ];
 
 function render(){
@@ -185,7 +223,7 @@ function render(){
         card.innerHTML=`
             <div class="row">
                 <h2>${service.name}</h2>
-                <div class="status">Maintenance Progress</div>
+                <div class="status">MAINTENANCE PROGRESS</div>
             </div>
 
             <div class="progress-wrapper">
