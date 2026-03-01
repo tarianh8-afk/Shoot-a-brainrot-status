@@ -29,11 +29,15 @@ body{
   padding:30px 18px;
 }
 
+.container{
+  max-width:850px;
+  margin:auto;
+}
+
 /* FLOAT HEADER */
 @keyframes floatHeader {
-  0% { transform: translateY(0px); }
+  0%,100% { transform: translateY(0px); }
   50% { transform: translateY(-6px); }
-  100% { transform: translateY(0px); }
 }
 
 .header{
@@ -170,7 +174,7 @@ h1{
   transform:translateY(-2px);
 }
 
-/* ===== YOUR EXISTING CARD + BARS (unchanged except glow bars) ===== */
+/* ===== CARDS ===== */
 
 .card{
   background:var(--glass);
@@ -205,24 +209,73 @@ h1{
 .down{ color:var(--red); border:2px solid var(--red); box-shadow:0 0 15px var(--red);}
 .development{ color:var(--blue); border:2px solid var(--blue); box-shadow:0 0 15px var(--blue);}
 
+/* PROGRESS BAR WRAPPER */
 .progress-wrapper{
   background:rgba(255,255,255,0.08);
   border-radius:30px;
   height:22px;
   overflow:hidden;
+  position:relative;
 }
 
+/* GLOWING BLUE BAR */
 .progress-bar{
   height:100%;
   border-radius:30px;
+  position:relative;
+  overflow:hidden;
   background: linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
   box-shadow:0 0 20px rgba(76,201,255,.7);
   transition:width 1.2s ease;
 }
 
+/* PREMIUM SLIDING SHINE */
+.progress-bar::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  height:100%;
+  width:60%;
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.15) 30%,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0.15) 70%,
+    transparent 100%
+  );
+  transform:skewX(-20deg);
+  animation: slideShine 4s ease-in-out infinite;
+}
+
+@keyframes slideShine{
+  0%{ left:-120%; }
+  100%{ left:150%; }
+}
+
 .percent{
   margin-top:10px;
   font-weight:600;
+}
+
+/* TEAM */
+.team-grid{
+  display:grid;
+  gap:12px;
+}
+
+.team-role{
+  padding:14px 18px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);
+}
+
+.footer{
+  text-align:center;
+  margin-top:50px;
+  opacity:0.6;
 }
 </style>
 </head>
@@ -232,7 +285,6 @@ h1{
 
 <div class="header">
   <div class="header-top">
-
     <div class="status-wrapper">
       <div class="status-dot"></div>
       <div class="ring"></div>
@@ -240,7 +292,6 @@ h1{
       <div class="sparkle"></div>
       <div class="sparkle"></div>
     </div>
-
     <h1>Shoot a Brain Rot Status</h1>
   </div>
 
@@ -251,6 +302,25 @@ h1{
 </div>
 
 <div id="services"></div>
+
+<div class="card">
+  <div class="row">
+    <div class="service-title">Our Team</div>
+    <div class="badge development">CORE</div>
+  </div>
+
+  <div class="team-grid">
+    <div class="team-role"><strong>Owner:</strong> Tazz</div>
+    <div class="team-role"><strong>Co Owner:</strong> Jme</div>
+    <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
+    <div class="team-role"><strong>Administrations:</strong> Joe</div>
+    <div class="team-role"><em>More soon...</em></div>
+  </div>
+</div>
+
+<div class="footer">
+Made by Tazz & Jme
+</div>
 
 </div>
 
@@ -284,6 +354,7 @@ function render(){
     container.appendChild(card);
   });
 }
+
 render();
 </script>
 
