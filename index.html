@@ -54,8 +54,9 @@ body{
 }
 
 h1{
-    margin:0;
     font-size:28px;
+    margin:0;
+    font-weight:700;
 }
 
 .toggle{
@@ -66,6 +67,12 @@ h1{
     color:white;
     font-weight:600;
     cursor:pointer;
+    transition:0.3s ease;
+}
+
+.toggle:hover{
+    box-shadow:0 0 25px var(--accent), 0 0 50px var(--accent);
+    transform:translateY(-2px);
 }
 
 .card{
@@ -75,6 +82,13 @@ h1{
     border-radius:30px;
     padding:40px;
     margin-bottom:40px;
+    transition:0.3s ease;
+    box-shadow:0 0 20px rgba(168,85,247,0.2);
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 40px rgba(168,85,247,0.4);
 }
 
 .row{
@@ -84,47 +98,65 @@ h1{
     margin-bottom:25px;
 }
 
-.progress-bar{
-    width:100%;
-    height:18px;
-    background:rgba(255,255,255,0.08);
-    border-radius:20px;
-    overflow:hidden;
-    margin-bottom:15px;
+h2{
+    margin:0;
+    font-size:22px;
+    font-weight:600;
 }
 
-.fill{
+.status{
+    font-size:14px;
+    font-weight:600;
+    opacity:0.8;
+}
+
+.progress-wrapper{
+    background:rgba(255,255,255,0.1);
+    border-radius:20px;
+    overflow:hidden;
+    height:22px;
+    margin-top:10px;
+    border:1px solid var(--accent);
+}
+
+.progress-bar{
     height:100%;
     width:0%;
     background:linear-gradient(90deg,var(--accent),#d8b4fe);
     border-radius:20px;
-    transition:0.6s ease;
+    box-shadow:0 0 10px var(--accent), 0 0 20px var(--accent);
+    transition:width 0.6s ease, box-shadow 1s ease-in-out;
+    animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse{
+    0%{box-shadow:0 0 10px var(--accent), 0 0 20px var(--accent);}
+    50%{box-shadow:0 0 18px var(--accent), 0 0 35px var(--accent);}
+    100%{box-shadow:0 0 10px var(--accent), 0 0 20px var(--accent);}
 }
 
 .percent{
-    font-weight:600;
-    margin-bottom:15px;
+    margin-top:10px;
+    font-size:13px;
+    opacity:0.8;
 }
 
-.input-row{
-    display:flex;
-    gap:10px;
-}
-
-input{
-    flex:1;
-    padding:8px;
-    border-radius:10px;
-    border:none;
-}
-
-button.update{
-    padding:8px 16px;
-    border-radius:10px;
+.edit-btn{
+    margin-top:20px;
+    padding:6px 16px;
+    border-radius:20px;
     border:none;
     background:var(--accent);
     color:white;
+    font-size:12px;
     cursor:pointer;
+    box-shadow:0 0 10px var(--accent);
+    transition:0.3s ease;
+}
+
+.edit-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 25px var(--accent),0 0 40px var(--accent);
 }
 
 .footer{
@@ -135,11 +167,10 @@ button.update{
 
 @media(max-width:600px){
     body{padding:40px 15px}
-    .card{padding:25px}
+    .progress-wrapper{height:18px}
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
@@ -158,49 +189,52 @@ button.update{
 </div>
 
 <script>
-
-let services = JSON.parse(localStorage.getItem("services")) || [
-    {name:"Discord Bot", progress:40},
-    {name:"Website", progress:20},
-    {name:"our progress !! ", progress:10}
+let services = JSON.parse(localStorage.getItem("progressData")) || [
+    {name:"Discord Bot", progress:100},
+    {name:"Website", progress:0},
+    {name:"our progress ", progress:5}
 ];
 
 function render(){
     const container = document.getElementById("services");
-    container.innerHTML = "";
+    container.innerHTML="";
 
     services.forEach((service,index)=>{
-        const card = document.createElement("div");
+        const card=document.createElement("div");
         card.className="card";
 
-        card.innerHTML = `
+        card.innerHTML=`
             <div class="row">
                 <h2>${service.name}</h2>
-                <span class="percent">${service.progress}%</span>
+                <div class="status">Maintenance Progress</div>
             </div>
 
-            <div class="progress-bar">
-                <div class="fill" style="width:${service.progress}%"></div>
+            <div class="progress-wrapper">
+                <div class="progress-bar" style="width:${service.progress}%"></div>
             </div>
 
-            <div class="input-row">
-                <input type="number" min="0" max="100" placeholder="Set %" id="input-${index}">
-                <button class="update" onclick="updateProgress(${index})">Update</button>
-            </div>
+            <div class="percent">${service.progress}% Complete</div>
+
+            <button class="edit-btn" onclick="editProgress(${index})">
+                Update Progress
+            </button>
         `;
 
         container.appendChild(card);
     });
 }
 
-function updateProgress(index){
-    const input = document.getElementById(`input-${index}`);
-    let value = parseInt(input.value);
-
-    if(value >= 0 && value <= 100){
-        services[index].progress = value;
-        localStorage.setItem("services", JSON.stringify(services));
-        render();
+function editProgress(index){
+    let newVal = prompt("Enter new progress % (0-100):");
+    if(newVal !== null){
+        newVal = parseInt(newVal);
+        if(newVal >=0 && newVal <=100){
+            services[index].progress = newVal;
+            localStorage.setItem("progressData", JSON.stringify(services));
+            render();
+        } else {
+            alert("Enter a number between 0 and 100");
+        }
     }
 }
 
@@ -215,7 +249,6 @@ if(localStorage.getItem("mode")==="light"){
 }
 
 render();
-
 </script>
 
 </body>
