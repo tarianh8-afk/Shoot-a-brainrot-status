@@ -9,11 +9,14 @@
 
 <style>
 :root{
+  --bg:#05060a;
   --glass:rgba(20,25,45,0.55);
   --border:rgba(255,255,255,0.08);
+  --text:#ffffff;
   --green:#00ff99;
-  --blue1:#4cc9ff;
-  --blue2:#1d4ed8;
+  --purple:#a855f7;
+  --red:#ff3b5c;
+  --blue:#4cc9ff;
 }
 
 *{box-sizing:border-box}
@@ -22,9 +25,14 @@ body{
   margin:0;
   font-family:'Inter',sans-serif;
   background:radial-gradient(circle at top,#101530 0%,#05060a 60%);
-  color:white;
+  color:var(--text);
   padding:30px 18px;
-  overflow-x:hidden;
+  transition:0.4s ease;
+}
+
+body.light{
+  background:#f5f7ff;
+  color:#111;
 }
 
 /* PARTICLES */
@@ -40,9 +48,9 @@ body{
 }
 
 /* FLOATING HEADER */
-@keyframes floatHeader{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-6px);}
+@keyframes floatHeader {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
 }
 
 .header{
@@ -50,69 +58,32 @@ body{
   backdrop-filter:blur(20px);
   border:1px solid var(--border);
   border-radius:25px;
-  padding:30px;
+  padding:25px;
   margin-bottom:40px;
-  animation:floatHeader 5s ease-in-out infinite;
+  animation: floatHeader 5s ease-in-out infinite;
 }
 
-/* CENTER HEADER CONTENT */
-.header-top{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:15px;
-}
-
-h1{
-  margin:0;
-  font-size:26px;
-  font-weight:800;
-}
-
-/* STATUS DOT */
-.status-wrapper{
-  position:relative;
-  width:20px;
-  height:20px;
-}
-
-@keyframes blob{
-  0%,100%{border-radius:50%;}
-  50%{border-radius:60% 40% 50% 50%/50% 60% 40% 50%;}
-}
-
-.status-dot{
-  width:100%;
-  height:100%;
-  background:radial-gradient(circle at 30% 30%, #66ffcc, var(--green));
-  animation:blob 6s infinite ease-in-out;
-}
-
-/* FLOAT TIMER */
+/* 🔥 TIMER STYLE */
 @keyframes floatTimer{
   0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-5px);}
-}
-
-.alive-wrapper{
-  text-align:center;
-  margin-top:18px;
+  50%{transform:translateY(-4px);}
 }
 
 .alive-timer{
-  font-size:20px;
+  margin:15px 0 20px 0;
+  text-align:center;
+  font-size:18px;
   font-weight:800;
   position:relative;
   display:inline-block;
-  padding:4px 8px;
 
   background:linear-gradient(
     90deg,
-    var(--blue1),
+    #4cc9ff,
     #3a86ff,
-    var(--blue2),
+    #1d4ed8,
     #3a86ff,
-    var(--blue1)
+    #4cc9ff
   );
   background-size:200% auto;
   background-clip:text;
@@ -130,61 +101,199 @@ h1{
   100%{background-position:200% center;}
 }
 
-/* WHITE SHINE INSIDE TEXT */
 .alive-timer::after{
   content:"";
   position:absolute;
-  inset:0;
+  top:0;
+  left:-100%;
+  height:100%;
+  width:40%;
   background:linear-gradient(
     120deg,
-    transparent 30%,
+    transparent 0%,
     rgba(255,255,255,0.9) 50%,
-    transparent 70%
+    transparent 100%
   );
-  transform:translateX(-100%) skewX(-20deg);
-  animation:shineSlide 3s ease-in-out infinite;
-
-  /* IMPORTANT: clip shine to text */
-  background-clip:text;
-  -webkit-background-clip:text;
-  color:transparent;
-  -webkit-text-fill-color:transparent;
-  pointer-events:none;
+  transform:skewX(-20deg);
+  animation: shineSlide 3s ease-in-out infinite;
 }
 
 @keyframes shineSlide{
-  0%{transform:translateX(-100%) skewX(-20deg);}
-  100%{transform:translateX(200%) skewX(-20deg);}
+  0%{left:-100%;}
+  100%{left:150%;}
 }
 
-/* BUTTONS */
+/* STATUS DOT */
+.status-wrapper{
+  position:relative;
+  width:22px;
+  height:22px;
+}
+
+@keyframes blob {
+  0%,100% { border-radius:50%; }
+  25% { border-radius:55% 45% 60% 40%/50% 60% 40% 50%; }
+  50% { border-radius:45% 55% 40% 60%/60% 40% 60% 40%; }
+  75% { border-radius:60% 40% 55% 45%/45% 55% 45% 55%; }
+}
+
+@keyframes pulseGlow{
+  0%,100%{ box-shadow:0 0 20px var(--green); }
+  50%{ box-shadow:0 0 45px var(--green); }
+}
+
+.status-dot{
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle at 30% 30%, #66ffcc, var(--green));
+  position:absolute;
+  animation: blob 6s infinite ease-in-out,
+             pulseGlow 3s infinite ease-in-out;
+}
+
+.ring{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  border:2px solid var(--green);
+  opacity:0;
+  animation:ripple 3s infinite;
+}
+
+.ring:nth-child(3){ animation-delay:1s }
+.ring:nth-child(4){ animation-delay:2s }
+
+@keyframes ripple{
+  0%{ transform:scale(1); opacity:0.6; }
+  100%{ transform:scale(2.4); opacity:0; }
+}
+
+.header-top{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+h1{
+  margin:0;
+  font-size:24px;
+  font-weight:800;
+}
+
 .button-group{
   display:flex;
-  justify-content:center;
   gap:15px;
-  margin-top:25px;
   flex-wrap:wrap;
 }
 
 .btn{
-  padding:12px 22px;
+  flex:1;
+  text-align:center;
+  padding:12px;
   border-radius:50px;
   border:1px solid var(--border);
   background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(15px);
   color:white;
   text-decoration:none;
   font-weight:600;
   transition:0.3s;
+  cursor:pointer;
 }
 
 .btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 0 18px rgba(76,201,255,.7);
+  box-shadow:0 0 20px rgba(255,255,255,0.6);
+  transform:translateY(-2px);
+}
+
+/* REST OF YOUR CSS (UNCHANGED) */
+.card{
+  background:var(--glass);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--border);
+  border-radius:30px;
+  padding:30px;
+  margin-bottom:35px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.service-title{
+  font-size:22px;
+  font-weight:700;
+}
+
+.badge{
+  padding:8px 20px;
+  border-radius:50px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.operational{ color:var(--green); border:2px solid var(--green); box-shadow:0 0 15px var(--green);}
+.maintenance{ color:var(--purple); border:2px solid var(--purple); box-shadow:0 0 15px var(--purple);}
+.down{ color:var(--red); border:2px solid var(--red); box-shadow:0 0 15px var(--red);}
+.development{ color:var(--blue); border:2px solid var(--blue); box-shadow:0 0 15px var(--blue);}
+
+.progress-wrapper{
+  background:rgba(255,255,255,0.08);
+  border-radius:30px;
+  height:22px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  position:relative;
+  height:100%;
+  border-radius:30px;
+  background: linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
+  box-shadow:0 0 20px rgba(76,201,255,.7);
+  width:0;
+  transition:width 1.5s ease;
+  overflow:hidden;
+}
+
+.progress-bar::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  height:100%;
+  width:40%;
+  background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.6) 50%,transparent 100%);
+  transform:skewX(-20deg);
+  animation: slideShine 3s ease-in-out infinite;
+}
+
+@keyframes slideShine{
+  0%{ left:-100%; }
+  100%{ left:120%; }
+}
+
+.percent{
+  margin-top:10px;
+  font-weight:600;
+}
+
+.team-grid{ display:grid; gap:12px; }
+
+.team-role{
+  padding:14px 18px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);
 }
 
 .footer{
   text-align:center;
-  margin-top:60px;
+  margin-top:50px;
   opacity:0.6;
 }
 </style>
@@ -197,25 +306,42 @@ h1{
 <div class="container">
 
 <div class="header">
-
   <div class="header-top">
     <div class="status-wrapper">
       <div class="status-dot"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
     </div>
     <h1>Shoot a Brain Rot Status</h1>
   </div>
 
-  <div class="alive-wrapper">
-    <div class="alive-timer" id="aliveTimer">
-      Alive for: 0d 0h 0m 0s
-    </div>
+  <!-- 🔥 GLOBAL TIMER ADDED -->
+  <div class="alive-timer" id="aliveTimer">
+    Alive for: 0d 0h 0m 0s
   </div>
 
   <div class="button-group">
+    <button class="btn" id="toggleBtn">Toggle Mode</button>
     <a href="mailto:Tarianh8@outlook.com" class="btn">Email</a>
     <a href="https://discord.gg/gyewQRPzqW" target="_blank" class="btn">Discord</a>
   </div>
+</div>
 
+<div id="services"></div>
+
+<div class="card">
+  <div class="row">
+    <div class="service-title">Our Team</div>
+    <div class="badge development">CORE</div>
+  </div>
+
+  <div class="team-grid">
+    <div class="team-role"><strong>Owner:</strong> Tazz</div>
+    <div class="team-role"><strong>Co Owner:</strong> Jme</div>
+    <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
+    <div class="team-role"><strong>Administrations:</strong> Joe</div>
+    <div class="team-role"><em>More soon...</em></div>
+  </div>
 </div>
 
 <div class="footer">
@@ -226,8 +352,8 @@ Made by Tazz & Jme
 
 <script>
 
-/* START DATE = WHEN PAGE LOADS */
-const startDate = new Date();
+/* 🌍 GLOBAL FIXED START DATE */
+const startDate = new Date("2026-03-01T00:00:00Z");
 
 function updateAliveTimer(){
   const now = new Date();
@@ -245,6 +371,61 @@ function updateAliveTimer(){
 setInterval(updateAliveTimer,1000);
 updateAliveTimer();
 
+/* YOUR ORIGINAL JS BELOW (UNCHANGED) */
+
+const services = [
+  {name:"Discord Bot", percent:100, status:"operational"},
+  {name:"Website", percent:0, status:"maintenance"},
+  {name:"Progress", percent:10, status:"development"},
+  {name:"API", percent:5, status:"down"}
+];
+
+function render(){
+  const container=document.getElementById("services");
+  container.innerHTML="";
+
+  services.forEach(service=>{
+    const card=document.createElement("div");
+    card.className="card";
+
+    card.innerHTML=`
+      <div class="row">
+        <div class="service-title">${service.name}</div>
+        <div class="badge ${service.status}">
+          ${service.status.toUpperCase()}
+        </div>
+      </div>
+      <div class="progress-wrapper">
+        <div class="progress-bar"></div>
+      </div>
+      <div class="percent">0%</div>
+    `;
+
+    container.appendChild(card);
+
+    const bar=card.querySelector(".progress-bar");
+    const percentText=card.querySelector(".percent");
+
+    setTimeout(()=>{ bar.style.width=service.percent+"%"; },200);
+
+    let count=0;
+    let interval=setInterval(()=>{
+      if(count>=service.percent){
+        clearInterval(interval);
+      }else{
+        count++;
+        percentText.textContent=count+"%";
+      }
+    },15);
+  });
+}
+
+render();
+
+document.getElementById("toggleBtn").onclick=()=>{
+  document.body.classList.toggle("light");
+};
+
 /* PARTICLES */
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
@@ -257,7 +438,7 @@ resize();
 window.addEventListener("resize",resize);
 
 let particles=[];
-for(let i=0;i<80;i++){
+for(let i=0;i<70;i++){
   particles.push({
     x:Math.random()*canvas.width,
     y:Math.random()*canvas.height,
