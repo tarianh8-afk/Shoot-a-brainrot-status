@@ -8,119 +8,150 @@
 
 <style>
 :root{
-    --bg:#0b0d17;
-    --card:#121528;
+    --bg1:#0f1222;
+    --bg2:#1b1f3a;
+    --glass:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.12);
     --text:#ffffff;
     --accent:#a855f7;
 }
 
 .light{
-    --bg:#f4f6ff;
-    --card:#ffffff;
+    --bg1:#eef1ff;
+    --bg2:#f8f9ff;
+    --glass:rgba(255,255,255,0.7);
+    --border:rgba(0,0,0,0.08);
     --text:#111827;
     --accent:#9333ea;
+}
+
+*{
+    box-sizing:border-box;
 }
 
 body{
     margin:0;
     font-family:'Inter',sans-serif;
-    background:var(--bg);
+    background:linear-gradient(160deg,var(--bg1),var(--bg2));
     color:var(--text);
-    padding:30px 15px;
+    padding:60px 20px;
     transition:0.3s ease;
 }
 
 .container{
-    max-width:700px;
+    max-width:800px;
     margin:auto;
 }
 
 .header{
-    background:var(--card);
-    padding:25px;
-    border-radius:25px;
+    backdrop-filter:blur(25px);
+    background:var(--glass);
+    border:1px solid var(--border);
+    padding:30px 40px;
+    border-radius:30px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:30px;
-    border:2px solid var(--accent);
-    box-shadow:0 0 30px rgba(168,85,247,0.4);
+    margin-bottom:60px;
+}
+
+h1{
+    font-size:28px;
+    margin:0;
+    font-weight:700;
+    letter-spacing:0.5px;
 }
 
 .toggle{
-    background:var(--accent);
+    padding:10px 22px;
+    border-radius:50px;
     border:none;
-    padding:10px 20px;
-    border-radius:40px;
+    background:var(--accent);
     color:white;
     font-weight:600;
     cursor:pointer;
-    box-shadow:0 0 20px var(--accent);
+    transition:0.3s ease;
+}
+
+.toggle:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(168,85,247,0.4);
 }
 
 .card{
-    background:var(--card);
-    padding:30px;
-    border-radius:25px;
-    margin-bottom:25px;
-    border:2px solid var(--accent);
-    box-shadow:0 0 30px rgba(168,85,247,0.25);
+    backdrop-filter:blur(25px);
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:30px;
+    padding:40px;
+    margin-bottom:40px;
     transition:0.3s ease;
 }
 
 .card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 0 45px rgba(168,85,247,0.5);
+    transform:translateY(-5px);
 }
 
 .row{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    margin-bottom:35px;
+}
+
+h2{
+    margin:0;
+    font-size:22px;
+    font-weight:600;
 }
 
 .status{
-    padding:8px 20px;
-    border-radius:40px;
-    font-size:12px;
+    padding:8px 22px;
+    border-radius:50px;
+    font-size:13px;
     font-weight:700;
     letter-spacing:1px;
     text-transform:uppercase;
+    border:1px solid var(--accent);
     color:var(--accent);
-    border:2px solid var(--accent);
-    box-shadow:0 0 15px var(--accent);
 }
 
 .bars{
     display:flex;
-    gap:6px;
-    margin-top:25px;
+    gap:10px;
     flex-wrap:wrap;
 }
 
 .bar{
-    width:8px;
-    height:45px;
-    border-radius:6px;
-    background:transparent;
-    border:2px solid var(--accent);
-    box-shadow:0 0 12px var(--accent);
+    width:10px;
+    height:60px;
+    border-radius:8px;
+    background:linear-gradient(to top,var(--accent),transparent);
+    opacity:0.6;
     transition:0.3s ease;
 }
 
 .bar:hover{
-    background:var(--accent);
-    transform:scale(1.2);
-    box-shadow:0 0 25px var(--accent), 0 0 50px var(--accent);
+    opacity:1;
+    transform:scaleY(1.15);
 }
 
 .footer{
     text-align:center;
-    margin-top:40px;
+    margin-top:60px;
     opacity:0.6;
+    font-size:14px;
+}
+
+@media(max-width:600px){
+    body{padding:40px 15px}
+    .header{padding:20px}
+    .card{padding:25px}
+    .bar{height:45px}
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -154,7 +185,7 @@ function render(){
         card.className="card";
 
         let barsHTML = "";
-        for(let i=0;i<30;i++){
+        for(let i=0;i<25;i++){
             barsHTML += `<div class="bar"></div>`;
         }
 
