@@ -5,184 +5,135 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shoot a Brain Rot Status</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#05060a;
-  --glass:rgba(20,25,45,0.55);
+  --bg1:#0a0f25;
+  --bg2:#05060a;
+  --glass:rgba(25,30,60,0.45);
   --border:rgba(255,255,255,0.08);
   --text:#ffffff;
   --green:#00ff99;
-  --purple:#a855f7;
+  --purple:#b46cff;
   --red:#ff3b5c;
   --blue:#4cc9ff;
 }
 
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
-  margin:0;
   font-family:'Inter',sans-serif;
-  background:radial-gradient(circle at top,#101530 0%,#05060a 60%);
+  background:linear-gradient(140deg,var(--bg1),var(--bg2));
+  background-size:200% 200%;
+  animation:bgShift 15s ease infinite;
   color:var(--text);
-  padding:30px 18px;
+  padding:40px 20px;
+  overflow-x:hidden;
 }
 
-.container{
-  max-width:850px;
-  margin:auto;
+@keyframes bgShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
+
+.container{max-width:900px;margin:auto}
 
 /* FLOAT HEADER */
-@keyframes floatHeader {
-  0%,100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+@keyframes floatHeader{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
 }
 
 .header{
   background:var(--glass);
-  backdrop-filter:blur(20px);
+  backdrop-filter:blur(25px);
   border:1px solid var(--border);
-  border-radius:25px;
-  padding:25px;
-  margin-bottom:40px;
-  animation: floatHeader 5s ease-in-out infinite;
+  border-radius:30px;
+  padding:30px;
+  margin-bottom:50px;
+  animation:floatHeader 6s ease-in-out infinite;
+  box-shadow:0 0 40px rgba(0,0,0,.6);
 }
 
-/* ===== ADVANCED STATUS DOT ===== */
-
+/* STATUS DOT ULTRA */
 .status-wrapper{
   position:relative;
-  width:22px;
-  height:22px;
+  width:24px;height:24px;
 }
 
-@keyframes blob {
-  0%,100% { border-radius:50%; }
-  25% { border-radius:55% 45% 60% 40%/50% 60% 40% 50%; }
-  50% { border-radius:45% 55% 40% 60%/60% 40% 60% 40%; }
-  75% { border-radius:60% 40% 55% 45%/45% 55% 45% 55%; }
-}
-
-@keyframes pulseGlow{
-  0%,100%{ box-shadow:0 0 20px var(--green); }
-  50%{ box-shadow:0 0 45px var(--green); }
+@keyframes blob{
+  0%,100%{border-radius:50%}
+  50%{border-radius:60% 40% 55% 45%}
 }
 
 .status-dot{
-  width:100%;
-  height:100%;
-  background:radial-gradient(circle at 30% 30%, #66ffcc, var(--green));
-  position:absolute;
-  animation: blob 6s infinite ease-in-out,
-             pulseGlow 3s infinite ease-in-out;
+  width:100%;height:100%;
+  background:radial-gradient(circle at 30% 30%,#66ffcc,var(--green));
+  animation:blob 6s infinite ease-in-out;
+  box-shadow:0 0 25px var(--green),0 0 60px var(--green);
 }
 
-/* Shine reflection */
 .status-dot::before{
   content:"";
   position:absolute;
-  width:8px;
-  height:8px;
-  top:3px;
-  left:4px;
-  background:rgba(255,255,255,0.9);
+  width:8px;height:8px;
+  top:4px;left:5px;
+  background:white;
   border-radius:50%;
   filter:blur(1px);
   animation:shineMove 3s infinite ease-in-out;
 }
 
 @keyframes shineMove{
-  0%,100%{ transform:translate(0,0); }
-  50%{ transform:translate(2px,2px); }
+  50%{transform:translate(3px,3px)}
 }
 
-/* Ripple Rings */
-.ring{
-  position:absolute;
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  border:2px solid var(--green);
-  opacity:0;
-  animation:ripple 3s infinite;
-}
-
-.ring:nth-child(3){ animation-delay:1s }
-.ring:nth-child(4){ animation-delay:2s }
-
-@keyframes ripple{
-  0%{ transform:scale(1); opacity:0.6; }
-  100%{ transform:scale(2.4); opacity:0; }
-}
-
-/* Sparkles */
-.sparkle{
-  position:absolute;
-  width:4px;
-  height:4px;
-  background:white;
-  border-radius:50%;
-  animation:sparkleAnim 2s infinite ease-in-out;
-}
-
-.sparkle:nth-child(5){ top:-5px; left:60%; animation-delay:.5s }
-.sparkle:nth-child(6){ bottom:-5px; right:50%; animation-delay:1s }
-
-@keyframes sparkleAnim{
-  0%,100%{ opacity:0; transform:scale(0); }
-  50%{ opacity:1; transform:scale(1.4); }
-}
-
-/* HEADER LAYOUT */
 .header-top{
   display:flex;
   align-items:center;
   gap:15px;
-  margin-bottom:20px;
+  margin-bottom:25px;
 }
 
-h1{
-  margin:0;
-  font-size:24px;
-  font-weight:800;
-}
+h1{font-size:26px;font-weight:800}
 
 /* BUTTONS */
-.button-group{
-  display:flex;
-  gap:15px;
-}
+.button-group{display:flex;gap:15px}
 
 .btn{
   flex:1;
   text-align:center;
-  padding:12px;
+  padding:14px;
   border-radius:50px;
   border:1px solid var(--border);
   background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(15px);
+  backdrop-filter:blur(20px);
   color:white;
-  text-decoration:none;
   font-weight:600;
-  transition:0.3s;
+  transition:.3s;
 }
 
 .btn:hover{
-  box-shadow:0 0 20px rgba(255,255,255,0.6);
-  transform:translateY(-2px);
+  transform:translateY(-3px);
+  box-shadow:0 0 25px rgba(255,255,255,.5);
 }
 
-/* ===== CARDS ===== */
-
+/* CARDS */
 .card{
   background:var(--glass);
-  backdrop-filter:blur(20px);
+  backdrop-filter:blur(25px);
   border:1px solid var(--border);
   border-radius:30px;
-  padding:30px;
-  margin-bottom:35px;
+  padding:35px;
+  margin-bottom:40px;
+  transition:.4s;
+  box-shadow:0 10px 40px rgba(0,0,0,.5);
+}
+
+.card:hover{
+  transform:rotateX(4deg) rotateY(4deg);
 }
 
 .row{
@@ -192,90 +143,100 @@ h1{
   margin-bottom:20px;
 }
 
-.service-title{
-  font-size:22px;
-  font-weight:700;
-}
+.service-title{font-size:22px;font-weight:700}
 
+/* BADGES */
 .badge{
-  padding:8px 20px;
+  padding:8px 22px;
   border-radius:50px;
   font-size:13px;
   font-weight:700;
+  letter-spacing:1px;
 }
 
-.operational{ color:var(--green); border:2px solid var(--green); box-shadow:0 0 15px var(--green);}
-.maintenance{ color:var(--purple); border:2px solid var(--purple); box-shadow:0 0 15px var(--purple);}
-.down{ color:var(--red); border:2px solid var(--red); box-shadow:0 0 15px var(--red);}
-.development{ color:var(--blue); border:2px solid var(--blue); box-shadow:0 0 15px var(--blue);}
+.operational{
+  color:var(--green);
+  border:2px solid var(--green);
+  box-shadow:0 0 20px var(--green);
+}
 
-/* PROGRESS BAR WRAPPER */
+.maintenance{
+  color:var(--purple);
+  border:2px solid var(--purple);
+  box-shadow:
+    0 0 20px var(--purple),
+    0 0 45px rgba(180,108,255,.7),
+    inset 0 0 15px rgba(180,108,255,.4);
+}
+
+.down{
+  color:var(--red);
+  border:2px solid var(--red);
+  box-shadow:0 0 20px var(--red);
+}
+
+.development{
+  color:var(--blue);
+  border:2px solid var(--blue);
+  box-shadow:0 0 20px var(--blue);
+}
+
+/* PROGRESS */
 .progress-wrapper{
-  background:rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.07);
   border-radius:30px;
-  height:22px;
+  height:24px;
   overflow:hidden;
-  position:relative;
 }
 
-/* GLOWING BLUE BAR */
 .progress-bar{
   height:100%;
   border-radius:30px;
+  background:linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
+  box-shadow:0 0 25px rgba(76,201,255,.8);
   position:relative;
-  overflow:hidden;
-  background: linear-gradient(90deg,#4cc9ff,#3a86ff,#1d4ed8);
-  box-shadow:0 0 20px rgba(76,201,255,.7);
-  transition:width 1.2s ease;
+  animation:fillBar 2s ease forwards;
 }
 
-/* PREMIUM SLIDING SHINE */
+@keyframes fillBar{
+  from{width:0}
+}
+
 .progress-bar::after{
   content:"";
   position:absolute;
-  top:0;
-  left:-120%;
-  height:100%;
-  width:60%;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.15) 30%,
-    rgba(255,255,255,0.6) 50%,
-    rgba(255,255,255,0.15) 70%,
-    transparent 100%
-  );
+  top:0;left:-120%;
+  height:100%;width:60%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.6),transparent);
   transform:skewX(-20deg);
-  animation: slideShine 4s ease-in-out infinite;
+  animation:shine 4s infinite;
 }
 
-@keyframes slideShine{
-  0%{ left:-120%; }
-  100%{ left:150%; }
+@keyframes shine{
+  100%{left:150%}
 }
 
-.percent{
-  margin-top:10px;
-  font-weight:600;
-}
+.percent{margin-top:12px;font-weight:600}
 
 /* TEAM */
 .team-grid{
   display:grid;
-  gap:12px;
+  gap:15px;
 }
 
 .team-role{
-  padding:14px 18px;
-  border-radius:18px;
+  padding:16px 20px;
+  border-radius:20px;
   background:rgba(255,255,255,0.05);
   border:1px solid var(--border);
+  box-shadow:0 0 20px rgba(255,255,255,.05);
 }
 
+/* FOOTER */
 .footer{
   text-align:center;
-  margin-top:50px;
-  opacity:0.6;
+  margin-top:60px;
+  opacity:.6;
 }
 </style>
 </head>
@@ -287,10 +248,6 @@ h1{
   <div class="header-top">
     <div class="status-wrapper">
       <div class="status-dot"></div>
-      <div class="ring"></div>
-      <div class="ring"></div>
-      <div class="sparkle"></div>
-      <div class="sparkle"></div>
     </div>
     <h1>Shoot a Brain Rot Status</h1>
   </div>
@@ -314,45 +271,41 @@ h1{
     <div class="team-role"><strong>Co Owner:</strong> Jme</div>
     <div class="team-role"><strong>Mods:</strong> Batman, Kyle</div>
     <div class="team-role"><strong>Administrations:</strong> Joe</div>
-    <div class="team-role"><em>More soon...</em></div>
   </div>
 </div>
 
-<div class="footer">
-Made by Tazz & Jme
-</div>
+<div class="footer">Made by Tazz & Jme</div>
 
 </div>
 
 <script>
-const services = [
-  {name:"Discord Bot", percent:100, status:"operational"},
-  {name:"Website", percent:0, status:"maintenance"},
-  {name:"Progress", percent:10, status:"development"},
-  {name:"API", percent:5, status:"down"}
+const services=[
+{name:"Discord Bot",percent:100,status:"operational"},
+{name:"Website",percent:0,status:"maintenance"},
+{name:"Progress",percent:10,status:"development"},
+{name:"API",percent:5,status:"down"}
 ];
 
 function render(){
-  const container = document.getElementById("services");
+const container=document.getElementById("services");
 
-  services.forEach(service=>{
-    const card=document.createElement("div");
-    card.className="card";
-
-    card.innerHTML=`
-      <div class="row">
-        <div class="service-title">${service.name}</div>
-        <div class="badge ${service.status}">
-          ${service.status.toUpperCase()}
-        </div>
-      </div>
-      <div class="progress-wrapper">
-        <div class="progress-bar" style="width:${service.percent}%"></div>
-      </div>
-      <div class="percent">${service.percent}%</div>
-    `;
-    container.appendChild(card);
-  });
+services.forEach(service=>{
+const card=document.createElement("div");
+card.className="card";
+card.innerHTML=`
+<div class="row">
+<div class="service-title">${service.name}</div>
+<div class="badge ${service.status}">
+${service.status.toUpperCase()}
+</div>
+</div>
+<div class="progress-wrapper">
+<div class="progress-bar" style="width:${service.percent}%"></div>
+</div>
+<div class="percent">${service.percent}%</div>
+`;
+container.appendChild(card);
+});
 }
 
 render();
